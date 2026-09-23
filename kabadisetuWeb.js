@@ -245,7 +245,7 @@ function verifyOtpNow() {
 }
 function signOut() {
     try { localStorage.removeItem('kc_role'); localStorage.removeItem('kc_name'); } catch (e) { }
-    window.location.href = 'kabadisetuWeb.html';
+    window.location.href = 'index.html';
 }
 function checkName() {
     document.getElementById('nameContinueBtn').disabled = document.getElementById('nameInput').value.trim().length < 2;
