@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1F4D3D">
+  <title>Recycler Dashboard · KabadiSetu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F6F1E7;
+      --surface: #FFFFFF;
+      --ink: #26251E;
+      --ink-soft: #6B6858;
+      --ink-faint: #9A9683;
+      --green-deep: #1F4D3D;
+      --green-mid: #2F6B52;
+      --green-soft: #E4EEE7;
+      --amber: #DE9E2E;
+      --amber-soft: #FBEEDA;
+      --amber-ink: #7A5613;
+      --rust: #B8502F;
+      --rust-soft: #F6E3DB;
+      --blue: #3A6EA5;
+      --blue-soft: #E4EBF3;
+      --line: #E6DFCC;
+      --radius-s: 10px;
+      --radius-m: 16px;
+      --radius-l: 24px;
+      --shadow: 0 1px 2px rgba(38, 37, 30, .05), 0 10px 24px rgba(38, 37, 30, .06);
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #14181B;
+      --surface: #1D2226;
+      --ink: #ECEAE2;
+      --ink-soft: #A6A395;
+      --ink-faint: #78766A;
+      --green-soft: #1E332A;
+      --amber-soft: #3A2C12;
+      --rust-soft: #3A2019;
+      --blue-soft: #1B2836;
+      --line: #2B3136;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 24px rgba(0, 0, 0, .35);
+    }
+
+    [data-theme="dark"] .avatar,
+    [data-theme="dark"] .cell-user .av,
+    [data-theme="dark"] .who2 .av {
+      background: var(--green-soft);
+    }
+
+    .theme-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Hind', 'Noto Sans Devanagari', system-ui, sans-serif;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Fraunces', 'Hind', serif;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #D8CFB4;
+      border-radius: 8px;
+    }
+
+    /* ================= SHELL ================= */
+    .shell {
+      display: flex;
+      min-height: 100vh;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar {
+      width: 248px;
+      flex-shrink: 0;
+      background: var(--green-deep);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 16px;
+    }
+
+    .sb-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 6px 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, .14);
+      margin-bottom: 18px;
+    }
+
+    .sb-brand .leaf {
+      font-size: 22px;
+    }
+
+    .sb-brand .name {
+      font-family: 'Fraunces', serif;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.15;
+    }
+
+    .sb-brand .tag {
+      font-size: 10.5px;
+      color: #BFD9CC;
+      letter-spacing: .02em;
+    }
+
+    .sb-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .sb-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 12px;
+      border-radius: 11px;
+      color: #CFE3D8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      position: relative;
+    }
+
+    .sb-link svg {
+      width: 18px;
+      height: 18px;
+      stroke: #CFE3D8;
+      fill: none;
+      stroke-width: 1.8;
+      flex-shrink: 0;
+    }
+
+    .sb-link .badge {
+      margin-left: auto;
+      background: var(--amber);
+      color: #3F2A05;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 20px;
+    }
+
+    .sb-link:hover {
+      background: rgba(255, 255, 255, .07);
+      color: #fff;
+    }
+
+    .sb-link:hover svg {
+      stroke: #fff;
+    }
+
+    .sb-link.active {
+      background: #fff;
+      color: var(--green-deep);
+    }
+
+    .sb-link.active svg {
+      stroke: var(--green-deep);
+    }
+
+    .sb-foot {
+      border-top: 1px solid rgba(255, 255, 255, .14);
+      padding-top: 14px;
+      margin-top: 10px;
+    }
+
+    .sb-avail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, .08);
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .sb-avail .lbl {
+      font-size: 12px;
+      color: #CFE3D8;
+    }
+
+    .sb-avail .lbl b {
+      display: block;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .toggle {
+      position: relative;
+      width: 38px;
+      height: 22px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .25);
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform .18s ease;
+    }
+
+    .toggle.on {
+      background: var(--amber);
+    }
+
+    .toggle.on::after {
+      transform: translateX(16px);
+    }
+
+    .sb-signout {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #BFD9CC;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      border-radius: 10px;
+    }
+
+    .sb-signout:hover {
+      background: rgba(255, 255, 255, .07);
+      color: #fff;
+    }
+
+    .sb-signout svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    /* ---------- Main ---------- */
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 20;
+    }
+
+    .topbar h1 {
+      font-size: 22px;
+      color: var(--green-deep);
+    }
+
+    .topbar .sub {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-top: 2px;
+      font-family: 'Hind', sans-serif;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px 14px;
+      width: 230px;
+    }
+
+    .search svg {
+      width: 15px;
+      height: 15px;
+      stroke: var(--ink-faint);
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+
+    .search input {
+      border: none;
+      outline: none;
+      background: none;
+      font-size: 13.5px;
+      width: 100%;
+      color: var(--ink);
+    }
+
+    .iconbtn {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .iconbtn svg {
+      width: 17px;
+      height: 17px;
+      stroke: var(--ink-soft);
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .iconbtn .dot {
+      position: absolute;
+      top: 7px;
+      right: 8px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--rust);
+      border: 1.5px solid var(--bg);
+    }
+
+    .who {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 6px;
+      border-left: 1px solid var(--line);
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--amber-soft);
+      color: var(--amber-ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .who .nm {
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .who .rl {
+      font-size: 11px;
+      color: var(--ink-soft);
+    }
+
+    .content {
+      flex: 1;
+      padding: 26px 32px 60px;
+      overflow-y: auto;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+      animation: fade .2s ease;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ---------- Common bits ---------- */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 11px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .pill-amber {
+      background: var(--amber-soft);
+      color: var(--amber-ink);
+    }
+
+    .pill-green {
+      background: var(--green-soft);
+      color: var(--green-deep);
+    }
+
+    .pill-blue {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .pill-rust {
+      background: var(--rust-soft);
+      color: var(--rust);
+    }
+
+    .pill-grey {
+      background: #EDEAE0;
+      color: var(--ink-soft);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-m);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--green-deep);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #173D30;
+    }
+
+    .btn-amber {
+      background: var(--amber);
+      color: #3F2A05;
+    }
+
+    .btn-amber:hover {
+      background: #CB8E27;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--line);
+      color: var(--ink);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--green-deep);
+      color: var(--green-deep);
+    }
+
+    .btn-rust-outline {
+      background: transparent;
+      border: 1.5px solid var(--rust-soft);
+      color: var(--rust);
+    }
+
+    .btn-rust-outline:hover {
+      background: var(--rust-soft);
+    }
+
+    .btn-sm {
+      padding: 7px 13px;
+      font-size: 12.5px;
+    }
+
+    .btn:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    h2.sectiontitle {
+      font-size: 18px;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    p.sectionsub {
+      font-size: 13px;
+      color: var(--ink-soft);
+      font-family: 'Hind', sans-serif;
+      margin: 0 0 20px;
+    }
+
+    .rowhead {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* ---------- Stat cards ---------- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .stat-card .ic {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .stat-card .ic.g {
+      background: var(--green-soft);
+    }
+
+    .stat-card .ic.a {
+      background: var(--amber-soft);
+    }
+
+    .stat-card .ic.b {
+      background: var(--blue-soft);
+    }
+
+    .stat-card .ic.r {
+      background: var(--rust-soft);
+    }
+
+    .stat-card .delta {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--green-mid);
+    }
+
+    .stat-card .val {
+      font-family: 'Fraunces', serif;
+      font-size: 27px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .stat-card .lbl {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin-top: 6px;
+    }
+
+    /* ---------- Overview layout ---------- */
+    .ov-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 20px 22px;
+      margin-bottom: 20px;
+    }
+
+    .panel .phead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .phead h3 {
+      font-size: 15.5px;
+    }
+
+    .linklike {
+      background: none;
+      border: none;
+      color: var(--green-deep);
+      font-weight: 600;
+      font-size: 12.5px;
+      cursor: pointer;
+      font-family: 'Hind', sans-serif;
+    }
+
+    .mini-req {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mini-req:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .mini-req .em {
+      font-size: 22px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mini-req .nm {
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    .mini-req .mt {
+      font-size: 11.5px;
+      color: var(--ink-soft);
+    }
+
+    .mini-req .right {
+      margin-left: auto;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 12px;
+      padding: 10px 0;
+    }
+
+    .activity-item .dotcol {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .activity-item .adot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green-mid);
+      margin-top: 5px;
+    }
+
+    .activity-item .aline {
+      flex: 1;
+      width: 1px;
+      background: var(--line);
+      margin-top: 4px;
+    }
+
+    .activity-item:last-child .aline {
+      display: none;
+    }
+
+    .activity-item .atext {
+      font-size: 13px;
+      line-height: 1.4;
+      padding-bottom: 10px;
+    }
+
+    .activity-item .atext b {
+      font-weight: 600;
+    }
+
+    .activity-item .atime {
+      font-size: 11px;
+      color: var(--ink-faint);
+      margin-top: 2px;
+    }
+
+    .area-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .area-chip {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 6px 13px;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- Requests ---------- */
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 4px;
+      width: fit-content;
+      margin-bottom: 18px;
+    }
+
+    .filter-tabs button {
+      border: none;
+      background: none;
+      padding: 8px 16px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      cursor: pointer;
+      font-family: 'Hind', sans-serif;
+    }
+
+    .filter-tabs button.active {
+      background: var(--green-deep);
+      color: #fff;
+    }
+
+    .req-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .req-card {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .req-card .rc-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .req-card .who2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .req-card .who2 .av {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      color: var(--green-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .req-card .who2 .nm {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .req-card .who2 .loc {
+      font-size: 11.5px;
+      color: var(--ink-soft);
+    }
+
+    .req-card .materials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .mat-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .req-card .rc-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    .req-card .rc-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .req-card .rc-meta svg {
+      width: 13px;
+      height: 13px;
+      stroke: var(--ink-faint);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .req-card .rc-value {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .req-card .rc-value .est {
+      font-family: 'Fraunces', serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--green-deep);
+    }
+
+    .req-card .rc-value .estlbl {
+      font-size: 11px;
+      color: var(--ink-soft);
+    }
+
+    .req-card .rc-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .req-card .rc-actions .btn {
+      flex: 1;
+    }
+
+    /* ---------- Table (orders / payments) ---------- */
+    .tablewrap {
+      overflow-x: auto;
+    }
+
+    table.dtable {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    table.dtable th {
+      text-align: left;
+      font-size: 11.5px;
+      text-transform: none;
+      color: var(--ink-soft);
+      font-weight: 600;
+      padding: 0 14px 10px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    table.dtable td {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    table.dtable tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.dtable tr:hover td {
+      background: #FBF9F3;
+    }
+
+    .cell-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cell-user .av {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      color: var(--green-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .cell-user .nm {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .cell-user .sub {
+      font-size: 11.5px;
+      color: var(--ink-soft);
+    }
+
+    .mono {
+      font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    .tdright {
+      text-align: right;
+    }
+
+    /* ---------- Payments summary ---------- */
+    .pay-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .pay-summary .stat-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* ---------- Profile ---------- */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .profile-card {
+      padding: 26px 22px;
+      text-align: center;
+    }
+
+    .profile-card .av-lg {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      color: var(--green-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 28px;
+      margin: 0 auto 12px;
+    }
+
+    .profile-card h3 {
+      font-size: 17px;
+    }
+
+    .profile-card .role {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin: 2px 0 14px;
+      font-family: 'Hind', sans-serif;
+    }
+
+    .profile-card .rating {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .profile-card .rating svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--amber);
+      stroke: none;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 10px;
+      border: 1.5px solid var(--line);
+      font-size: 13.5px;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    .field input:focus,
+    .field select:focus {
+      outline: none;
+      border-color: var(--green-mid);
+    }
+
+    .chip-pick {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .chip-pick button {
+      border: 1.5px solid var(--line);
+      background: var(--bg);
+      border-radius: 20px;
+      padding: 7px 14px;
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      cursor: pointer;
+      font-family: 'Hind', sans-serif;
+    }
+
+    .chip-pick button.on {
+      background: var(--green-soft);
+      border-color: var(--green-mid);
+      color: var(--green-deep);
+      font-weight: 600;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--ink-soft);
+    }
+
+    .empty .em {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .empty .tt {
+      font-weight: 600;
+      color: var(--ink);
+      font-size: 14.5px;
+      margin-bottom: 3px;
+    }
+
+    .empty .ds {
+      font-size: 12.5px;
+    }
+
+    /* ---------- Toast ---------- */
+    #toast {
+      position: fixed;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 500;
+      z-index: 200;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+    }
+
+    #toast.hidden {
+      display: none;
+    }
+
+    /* ---------- Modal ---------- */
+    .modalbg {
+      position: fixed;
+      inset: 0;
+      background: rgba(38, 37, 30, .42);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 150;
+      padding: 20px;
+    }
+
+    .modalbg.hidden {
+      display: none;
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--radius-l);
+      max-width: 420px;
+      width: 100%;
+      padding: 26px;
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    .modal h3 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .modal .msub {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin-bottom: 18px;
+      font-family: 'Hind', sans-serif;
+    }
+
+    .refbox {
+      background: var(--green-soft);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .refbox .lb {
+      font-size: 11px;
+      color: var(--green-mid);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .refbox .code {
+      font-family: 'Fraunces', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--green-deep);
+      letter-spacing: .02em;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13.5px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .summary-line:last-child {
+      border-bottom: none;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .modal-actions .btn {
+      flex: 1;
+    }
+
+    /* ---------- Mobile menu ---------- */
+    .menubtn {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      width: 38px;
+      height: 38px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .menubtn svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--ink);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .sidebar-overlay {
+      display: none;
+    }
+
+    @media (max-width:1080px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .ov-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width:860px) {
+      .search {
+        display: none;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform .2s ease;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .35);
+        z-index: 90;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s ease;
+      }
+
+      .sidebar-overlay.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .menubtn {
+        display: flex;
+      }
+
+      .topbar {
+        padding: 16px 18px;
+      }
+
+      .content {
+        padding: 20px 18px 50px;
+      }
+
+      .pay-summary {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width:560px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .who .nm,
+      .who .rl {
+        display: none;
+      }
+
+      .req-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="shell">
+    <div class="sidebar-overlay" id="sbOverlay" onclick="toggleSidebar(false)"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-brand">
+        <span class="leaf">♻️</span>
+        <div>
+          <div class="name">KabadiSetu</div>
+          <div class="tag">Recycler Console</div>
+        </div>
+      </div>
+      <nav class="sb-nav">
+        <button class="sb-link active" data-view="overview" onclick="showView('overview')">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="9" rx="1.5" />
+            <rect x="14" y="3" width="7" height="5" rx="1.5" />
+            <rect x="14" y="12" width="7" height="9" rx="1.5" />
+            <rect x="3" y="16" width="7" height="5" rx="1.5" />
+          </svg>
+          Overview
+        </button>
+        <button class="sb-link" data-view="requests" onclick="showView('requests')">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 12h4l3-8 4 16 3-8h4" />
+          </svg>
+          Requests
+          <span class="badge" id="reqBadge">0</span>
+        </button>
+        <button class="sb-link" data-view="orders" onclick="showView('orders')">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 8l-9-5-9 5 9 5 9-5z" />
+            <path d="M3 8v8l9 5 9-5V8" />
+            <path d="M12 13v8" />
+          </svg>
+          Orders
+        </button>
+        <button class="sb-link" data-view="payments" onclick="showView('payments')">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="6" width="20" height="13" rx="2" />
+            <path d="M2 10h20" />
+          </svg>
+          Payments
+        </button>
+        <button class="sb-link" data-view="profile" onclick="showView('profile')">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+          </svg>
+          Profile
+        </button>
+      </nav>
+      <div class="sb-foot">
+        <div class="sb-avail">
+          <div class="lbl">Accepting pickups<b id="availText">Online</b></div>
+          <button class="toggle on" id="availToggle" onclick="toggleAvailability()"></button>
+        </div>
+        <button class="sb-signout" onclick="signOut()">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <path d="M16 17l5-5-5-5" />
+            <path d="M21 12H9" />
+          </svg>
+          Sign out
+        </button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="menubtn" onclick="toggleSidebar(true)">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 6h18" />
+              <path d="M3 12h18" />
+              <path d="M3 18h18" />
+            </svg>
+          </button>
+          <div>
+            <h1 id="pageTitle">Overview</h1>
+            <div class="sub" id="pageSub">Here's what's happening with your scrap business today</div>
+          </div>
+        </div>
+        <div class="top-right">
+          <div class="search">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.3-4.3" />
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search requests, orders..." oninput="handleSearch()"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();handleSearch(true);}">
+          </div>
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()"
+            aria-label="Toggle dark mode">🌙</button>
+          <button class="iconbtn"><svg viewBox="0 0 24 24">
+              <path d="M6 8a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6" />
+              <path d="M10.3 21a2 2 0 0 0 3.4 0" />
+            </svg><span class="dot"></span></button>
+          <div class="who" onclick="showView('profile')" style="cursor:pointer;" title="View profile">
+            <div class="avatar" id="avatarInit">R</div>
+            <div>
+              <div class="nm" id="nameDisplay">Rajendra Kabadi</div>
+              <div class="rl">Verified Recycler</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+
+        <!-- ============ OVERVIEW ============ -->
+        <section class="view active" id="view-overview">
+          <div class="stats-grid">
+            <div class="card stat-card">
+              <div class="top">
+                <div class="ic g">📥</div><span class="delta" id="statReqDelta">+3 today</span>
+              </div>
+              <div class="val" id="statReqCount">0</div>
+              <div class="lbl">New requests waiting</div>
+            </div>
+            <div class="card stat-card">
+              <div class="top">
+                <div class="ic a">🚚</div><span class="delta">In progress</span>
+              </div>
+              <div class="val" id="statActiveCount">0</div>
+              <div class="lbl">Pickups accepted, not yet collected</div>
+            </div>
+            <div class="card stat-card">
+              <div class="top">
+                <div class="ic b">⚖️</div><span class="delta">This month</span>
+              </div>
+              <div class="val" id="statWeight">0 kg</div>
+              <div class="lbl">Total material collected</div>
+            </div>
+            <div class="card stat-card">
+              <div class="top">
+                <div class="ic r">₹</div><span class="delta" id="statDueDelta">pending</span>
+              </div>
+              <div class="val" id="statEarnings">₹0</div>
+              <div class="lbl">Earnings this month</div>
+            </div>
+          </div>
+
+          <div class="ov-grid">
+            <div>
+              <div class="card panel">
+                <div class="phead">
+                  <h3>Latest pickup requests</h3><button class="linklike" onclick="showView('requests')">View
+                    all</button>
+                </div>
+                <div id="ovRequestsList"></div>
+              </div>
+              <div class="card panel">
+                <div class="phead">
+                  <h3>Your service areas</h3><button class="linklike" onclick="showView('profile')">Edit</button>
+                </div>
+                <div class="area-list" id="ovAreas"></div>
+              </div>
+            </div>
+            <div>
+              <div class="card panel">
+                <div class="phead">
+                  <h3>Recent activity</h3>
+                </div>
+                <div id="ovActivity"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ REQUESTS ============ -->
+        <section class="view" id="view-requests">
+          <div class="rowhead">
+            <div>
+              <h2 class="sectiontitle">Incoming requests</h2>
+              <p class="sectionsub">Households and shops nearby waiting for a pickup. Respond quickly — requests expire
+                after 24 hours.</p>
+            </div>
+          </div>
+          <div class="filter-tabs" id="reqFilterTabs">
+            <button class="active" data-f="all" onclick="setReqFilter('all')">All</button>
+            <button data-f="new" onclick="setReqFilter('new')">New</button>
+            <button data-f="accepted" onclick="setReqFilter('accepted')">Accepted by me</button>
+            <button data-f="declined" onclick="setReqFilter('declined')">Declined</button>
+          </div>
+          <div class="req-grid" id="reqGrid"></div>
+        </section>
+
+        <!-- ============ ORDERS ============ -->
+        <section class="view" id="view-orders">
+          <div class="rowhead">
+            <div>
+              <h2 class="sectiontitle">Orders &amp; pickup history</h2>
+              <p class="sectionsub">Everything you've accepted, collected or completed with customers.</p>
+            </div>
+          </div>
+          <div class="filter-tabs" id="orderFilterTabs">
+            <button class="active" data-f="all" onclick="setOrderFilter('all')">All</button>
+            <button data-f="scheduled" onclick="setOrderFilter('scheduled')">Scheduled</button>
+            <button data-f="completed" onclick="setOrderFilter('completed')">Completed</button>
+          </div>
+          <div class="card tablewrap">
+            <table class="dtable">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Material</th>
+                  <th>Weight</th>
+                  <th>Pickup date</th>
+                  <th>Status</th>
+                  <th>Value</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="ordersBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============ PAYMENTS ============ -->
+        <section class="view" id="view-payments">
+          <div class="rowhead">
+            <div>
+              <h2 class="sectiontitle">Payment records</h2>
+              <p class="sectionsub">Track what you've paid out to customers and what's still pending.</p>
+            </div>
+          </div>
+          <div class="pay-summary">
+            <div class="card stat-card">
+              <div class="top">
+                <div class="ic g">✓</div>
+              </div>
+              <div class="val" id="payTotalPaid">₹0</div>
+              <div class="lbl">Total paid out (all time)</div>
+            </div>
+            <div class="card stat-card">
+              <div class="top">
+                <div class="ic a">⏳</div>
+              </div>
+              <div class="val" id="payTotalPending">₹0</div>
+              <div class="lbl">Pending payments</div>
+            </div>
+            <div class="card stat-card">
+              <div class="top">
+                <div class="ic b">📄</div>
+              </div>
+              <div class="val" id="payTxnCount">0</div>
+              <div class="lbl">Total transactions</div>
+            </div>
+          </div>
+          <div class="card tablewrap">
+            <table class="dtable">
+              <thead>
+                <tr>
+                  <th>Ref</th>
+                  <th>Customer</th>
+                  <th>Material</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="paymentsBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============ PROFILE ============ -->
+        <section class="view" id="view-profile">
+          <div class="rowhead">
+            <div>
+              <h2 class="sectiontitle">Your recycler profile</h2>
+              <p class="sectionsub">Customers see this information when choosing who to hand material to.</p>
+            </div>
+          </div>
+          <div class="profile-grid">
+            <div class="card profile-card">
+              <div class="av-lg">R</div>
+              <h3>Rajendra Kabadi</h3>
+              <div class="role">Scrap &amp; recyclables · Kanpur</div>
+              <div class="rating">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2l3 6.5 7 .9-5.2 4.9 1.4 7-6.2-3.5-6.2 3.5 1.4-7L2 9.4l7-.9z" />
+                </svg>
+                4.8 · 212 pickups
+              </div>
+              <button class="btn btn-outline" style="width:100%;">Change photo</button>
+            </div>
+            <div class="card panel">
+              <div class="phead">
+                <h3>Business details</h3>
+              </div>
+              <div class="form-grid">
+                <div class="field"><label>Shop / business name</label><input type="text"
+                    value="Rajendra Scrap &amp; Recyclables"></div>
+                <div class="field"><label>Owner name</label><input type="text" value="Rajendra Kabadi"></div>
+                <div class="field"><label>Phone number</label><input type="text" value="+91 98765 43210"></div>
+                <div class="field"><label>WhatsApp number</label><input type="text" value="+91 98765 43210"></div>
+                <div class="field" style="grid-column:1/-1;"><label>Shop address</label><input type="text"
+                    value="12 Nayaganj Scrap Market, Kanpur, UP 208001"></div>
+              </div>
+              <div style="margin-top:18px;">
+                <label
+                  style="display:block;font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;">Materials
+                  you accept</label>
+                <div class="chip-pick" id="materialChips"></div>
+              </div>
+              <div style="margin-top:18px;">
+                <label
+                  style="display:block;font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;">Service
+                  areas / localities</label>
+                <div class="chip-pick" id="areaChips"></div>
+              </div>
+              <button class="btn btn-primary" style="margin-top:20px;" onclick="showToast('Profile saved')">Save
+                changes</button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="hidden"></div>
+
+  <!-- Handover / receipt modal -->
+  <div class="modalbg hidden" id="modalBg" onclick="if(event.target===this)closeModal()">
+    <div class="modal" id="modalBody"></div>
+  </div>
+
+  <script>
+    /* ================= THEME (dark mode) ================= */
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      const btn = document.getElementById('themeToggle');
+      if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      try { localStorage.setItem('kc_theme', JSON.stringify(next)); } catch (e) { }
+    }
+    (function initTheme() {
+      let saved = null;
+      try { const v = localStorage.getItem('kc_theme'); saved = v !== null ? JSON.parse(v) : null; } catch (e) { }
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+    })();
+
+    /* ================= SIGNED-IN USER (shared with the kabadiwala app) ================= */
+    (function loadUser() {
+      try {
+        const raw = localStorage.getItem('kc_name');
+        const name = raw ? JSON.parse(raw) : null;
+        if (name) {
+          document.getElementById('nameDisplay').textContent = name;
+          document.getElementById('avatarInit').textContent = name.charAt(0).toUpperCase();
+        }
+      } catch (e) { }
+    })();
+    function signOut() {
+      try { localStorage.removeItem('kc_role'); localStorage.removeItem('kc_name'); } catch (e) { }
+      window.location.href = 'index.html';
+    }
+
+    /* ================= SEARCH ================= */
+    let searchQuery = '';
+    function matchesSearch(o) {
+      if (!searchQuery) return true;
+      const m = matInfo(o.mat);
+      const hay = [o.name, o.locality, o.id, m.label, o.note].filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(searchQuery);
+    }
+    function handleSearch(jump) {
+      searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+      renderRequests();
+      renderOrders();
+      renderPayments();
+      if (jump) {
+        if (!searchQuery) return;
+        if (requests.some(matchesSearch)) showView('requests');
+        else if (orders.some(matchesSearch)) showView('orders');
+        else showToast('No matches for "' + document.getElementById('searchInput').value.trim() + '"');
+      }
+    }
+
+    /* ================= MOCK DATA ================= */
+    const MATERIALS = [
+      { key: 'paper', em: '📰', label: 'Paper & cardboard' },
+      { key: 'plastic', em: '🧴', label: 'Plastic' },
+      { key: 'metal', em: '🥫', label: 'Metal & scrap' },
+      { key: 'ewaste', em: '🔌', label: 'E-waste' },
+      { key: 'glass', em: '🍾', label: 'Glass' },
+      { key: 'clothes', em: '👕', label: 'Old clothes' },
+    ];
+    const AREAS_ALL = ['Nayaganj', 'Swaroop Nagar', 'Kidwai Nagar', 'Govind Nagar', 'Kakadeo', 'Civil Lines', 'Arya Nagar', 'Afeem Kothi', 'Chamanganj'];
+    let acceptedMaterials = ['paper', 'plastic', 'metal', 'ewaste'];
+    let acceptedAreas = ['Nayaganj', 'Swaroop Nagar', 'Kidwai Nagar', 'Chamanganj', 'Afeem Kothi'];
+
+    function rid(p) { return p + '-' + Math.random().toString(36).slice(2, 7).toUpperCase(); }
+
+    let requests = [
+      { id: rid('REQ'), name: 'Vanshika Dealers', locality: 'Afeem Kothi', distance: 3.2, mat: 'ewaste', weight: 10, postedMinsAgo: 5, note: 'Old Bulbs, tubelights and other electrical appliances', status: 'new', estValue: 860 },
+      { id: rid('REQ'), name: 'Naaz Traders', locality: 'Chamanganj', distance: 0.7, mat: 'plastic', weight: 5, postedMinsAgo: 40, note: 'Plastic water bottles, soft drink bottles and other recyclable plastic items', status: 'new', estValue: 90 },
+      { id: rid('REQ'), name: 'Aarya Singh', locality: 'Arya Nagar', distance: 1.3, mat: 'metal', weight: 20, postedMinsAgo: 145, note: 'steel food and beverage cans, iron cookware, door knobs and plubing fixtures', status: 'new', estValue: 1060 },
+      { id: rid('REQ'), name: 'Meena Sharma', locality: 'Nayaganj', distance: 0.8, mat: 'paper', weight: 6.5, postedMinsAgo: 12, note: 'Old newspapers and 2 cartons', status: 'new', estValue: 98 },
+      { id: rid('REQ'), name: 'Vikram Traders', locality: 'Swaroop Nagar', distance: 1.4, mat: 'metal', weight: 22, postedMinsAgo: 35, note: 'Steel offcuts from workshop', status: 'new', estValue: 660 },
+      { id: rid('REQ'), name: 'Anita Verma', locality: 'Kidwai Nagar', distance: 2.1, mat: 'ewaste', weight: 3, postedMinsAgo: 50, note: 'Old TV and 2 mixers', status: 'new', estValue: 420 },
+      { id: rid('REQ'), name: 'Suresh Paints & Hardware', locality: 'Civil Lines', distance: 3.6, mat: 'plastic', weight: 14, postedMinsAgo: 70, note: 'Empty paint drums, PET bottles', status: 'new', estValue: 154 },
+      { id: rid('REQ'), name: 'Kavita Joshi', locality: 'Kakadeo', distance: 2.8, mat: 'clothes', weight: 5, postedMinsAgo: 110, note: 'Bag of old clothes and linens', status: 'new', estValue: 60 },
+      { id: rid('REQ'), name: 'Deepak Singh', locality: 'Nayaganj', distance: 0.5, mat: 'glass', weight: 8, postedMinsAgo: 140, note: 'Glass bottles, jars', status: 'new', estValue: 40 },
+    ];
+
+    let orders = [
+      { id: rid('ORD'), name: 'Priya Nair', mat: 'plastic', weight: 12, date: '2026-09-18', status: 'completed', value: 132, paid: true },
+      { id: rid('ORD'), name: 'Om Traders', mat: 'metal', weight: 48, date: '2026-09-17', status: 'completed', value: 1440, paid: true },
+      { id: rid('ORD'), name: 'Ritu Malhotra', mat: 'paper', weight: 9, date: '2026-09-20', status: 'scheduled', value: 135, paid: false },
+      { id: rid('ORD'), name: 'Ashok Kumar', mat: 'ewaste', weight: 4, date: '2026-09-19', status: 'completed', value: 560, paid: false },
+      { id: rid('ORD'), name: 'Green Leaf Cafe', mat: 'glass', weight: 16, date: '2026-09-16', status: 'completed', value: 80, paid: true },
+      { id: rid('ORD'), name: 'Nisha Gupta', mat: 'clothes', weight: 6, date: '2026-09-22', status: 'scheduled', value: 72, paid: false },
+      { id: rid('ORD'), name: 'Bansal Electronics', mat: 'ewaste', weight: 9, date: '2026-09-14', status: 'completed', value: 1260, paid: true },
+    ];
+
+    const activity = [
+      { text: 'Marked payment as <b>paid</b> for Om Traders', time: '2 hours ago' },
+      { text: 'Accepted pickup request from <b>Meena Sharma</b>', time: '5 hours ago' },
+      { text: 'Completed pickup for <b>Green Leaf Cafe</b>', time: 'Yesterday, 6:40 PM' },
+      { text: 'Updated service areas — added <b>Kidwai Nagar</b>', time: '2 days ago' },
+    ];
+
+    function matInfo(key) { return MATERIALS.find(m => m.key === key) || MATERIALS[0]; }
+    function fmtMins(m) { if (m < 60) return m + 'm ago'; const h = Math.floor(m / 60); return h + 'h ago'; }
+
+    /* ================= RENDER: OVERVIEW ================= */
+    function renderOverview() {
+      const newReqs = requests.filter(r => r.status === 'new');
+      const activeOrders = orders.filter(o => o.status === 'scheduled');
+      const monthWeight = orders.reduce((s, o) => s + o.weight, 0);
+      const monthEarnings = orders.reduce((s, o) => s + o.value, 0);
+      const duePayments = orders.filter(o => !o.paid).length;
+
+      document.getElementById('statReqCount').textContent = newReqs.length;
+      document.getElementById('statActiveCount').textContent = activeOrders.length;
+      document.getElementById('statWeight').textContent = monthWeight.toFixed(0) + ' kg';
+      document.getElementById('statEarnings').textContent = '₹' + monthEarnings.toLocaleString('en-IN');
+      document.getElementById('statDueDelta').textContent = duePayments + ' payment' + (duePayments === 1 ? '' : 's') + ' due';
+      document.getElementById('reqBadge').textContent = newReqs.length;
+
+      document.getElementById('ovRequestsList').innerHTML = newReqs.slice(0, 4).map(r => {
+        const m = matInfo(r.mat);
+        return `<div class="mini-req">
+      <div class="em">${m.em}</div>
+      <div>
+        <div class="nm">${r.name}</div>
+        <div class="mt">${m.label} · ${r.weight}kg · ${r.locality}</div>
+      </div>
+      <div class="right">
+        <div style="font-weight:700;font-size:13.5px;color:var(--green-deep);">₹${r.estValue}</div>
+        <div style="font-size:11px;color:var(--ink-faint);">${fmtMins(r.postedMinsAgo)}</div>
+      </div>
+    </div>`;
+      }).join('') || `<div class="empty"><div class="em">📭</div><div class="tt">No new requests</div><div class="ds">You're all caught up.</div></div>`;
+
+      document.getElementById('ovAreas').innerHTML = acceptedAreas.map(a => `<span class="area-chip">📍 ${a}</span>`).join('');
+
+      document.getElementById('ovActivity').innerHTML = activity.map(a => `
+    <div class="activity-item">
+      <div class="dotcol"><div class="adot"></div><div class="aline"></div></div>
+      <div>
+        <div class="atext">${a.text}</div>
+        <div class="atime">${a.time}</div>
+      </div>
+    </div>`).join('');
+    }
+
+    /* ================= RENDER: REQUESTS ================= */
+    let reqFilter = 'all';
+    function setReqFilter(f) {
+      reqFilter = f;
+      document.querySelectorAll('#reqFilterTabs button').forEach(b => b.classList.toggle('active', b.dataset.f === f));
+      renderRequests();
+    }
+    function renderRequests() {
+      let list = requests;
+      if (reqFilter !== 'all') list = list.filter(r => r.status === reqFilter);
+      list = list.filter(matchesSearch);
+      document.getElementById('reqGrid').innerHTML = list.length ? list.map(r => {
+        const m = matInfo(r.mat);
+        const initials = r.name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+        let statusPill = '';
+        if (r.status === 'accepted') statusPill = `<span class="pill pill-green">Accepted</span>`;
+        else if (r.status === 'declined') statusPill = `<span class="pill pill-grey">Declined</span>`;
+        else statusPill = `<span class="pill pill-amber">New</span>`;
+        return `<div class="card req-card">
+      <div class="rc-top">
+        <div class="who2">
+          <div class="av">${initials}</div>
+          <div>
+            <div class="nm">${r.name}</div>
+            <div class="loc">📍 ${r.locality} · ${r.distance} km away</div>
+          </div>
+        </div>
+        ${statusPill}
+      </div>
+      <div class="materials">
+        <span class="mat-chip">${m.em} ${m.label}</span>
+        <span class="mat-chip">⚖️ ${r.weight} kg</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--ink-soft);">${r.note}</div>
+      <div class="rc-meta">
+        <span>🕒 Posted ${fmtMins(r.postedMinsAgo)}</span>
+      </div>
+      <div class="rc-value">
+        <div><div class="est">₹${r.estValue}</div><div class="estlbl">estimated value</div></div>
+      </div>
+      ${r.status === 'new' ? `
+      <div class="rc-actions">
+        <button class="btn btn-rust-outline" onclick="declineRequest('${r.id}')">Decline</button>
+        <button class="btn btn-amber" onclick="acceptRequest('${r.id}')">Accept pickup</button>
+      </div>` : r.status === 'accepted' ? `
+      <div class="rc-actions"><button class="btn btn-outline" style="width:100%;" disabled>Waiting for pickup</button></div>
+      ` : ``}
+    </div>`;
+      }).join('') : `<div class="empty" style="grid-column:1/-1;"><div class="em">📭</div><div class="tt">No requests here</div><div class="ds">Try a different filter.</div></div>`;
+    }
+    function acceptRequest(id) {
+      const r = requests.find(x => x.id === id);
+      r.status = 'accepted';
+      orders.unshift({ id: rid('ORD'), name: r.name, mat: r.mat, weight: r.weight, date: new Date().toISOString().slice(0, 10), status: 'scheduled', value: r.estValue, paid: false });
+      showToast(`Accepted — ${r.name} added to your scheduled orders`);
+      renderAll();
+    }
+    function declineRequest(id) {
+      const r = requests.find(x => x.id === id);
+      r.status = 'declined';
+      showToast(`Declined request from ${r.name}`);
+      renderAll();
+    }
+
+    /* ================= RENDER: ORDERS ================= */
+    let orderFilter = 'all';
+    function setOrderFilter(f) {
+      orderFilter = f;
+      document.querySelectorAll('#orderFilterTabs button').forEach(b => b.classList.toggle('active', b.dataset.f === f));
+      renderOrders();
+    }
+    function renderOrders() {
+      let list = orders;
+      if (orderFilter !== 'all') list = list.filter(o => o.status === orderFilter);
+      list = list.filter(matchesSearch);
+      document.getElementById('ordersBody').innerHTML = list.length ? list.map(o => {
+        const m = matInfo(o.mat);
+        const initials = o.name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+        return `<tr>
+      <td><div class="cell-user"><div class="av">${initials}</div><div><div class="nm">${o.name}</div><div class="sub mono">${o.id}</div></div></div></td>
+      <td>${m.em} ${m.label}</td>
+      <td>${o.weight} kg</td>
+      <td>${o.date}</td>
+      <td>${o.status === 'completed' ? '<span class="pill pill-green">Completed</span>' : '<span class="pill pill-amber">Scheduled</span>'}</td>
+      <td class="tdright" style="font-weight:600;">₹${o.value}</td>
+      <td class="tdright">
+        ${o.status === 'scheduled' ? `<button class="btn btn-sm btn-outline" onclick="completeOrder('${o.id}')">Mark collected</button>` : `<button class="btn btn-sm btn-outline" onclick="viewReceipt('${o.id}')">Receipt</button>`}
+      </td>
+    </tr>`;
+      }).join('') : `<tr><td colspan="7"><div class="empty"><div class="em">📦</div><div class="tt">No orders here</div><div class="ds">Accepted requests will show up in this list.</div></div></td></tr>`;
+    }
+    function completeOrder(id) {
+      const o = orders.find(x => x.id === id);
+      o.status = 'completed';
+      showToast(`${o.name}'s pickup marked as collected`);
+      renderAll();
+    }
+    function viewReceipt(id) {
+      const o = orders.find(x => x.id === id);
+      const m = matInfo(o.mat);
+      document.getElementById('modalBody').innerHTML = `
+    <h3>Pickup receipt</h3>
+    <div class="msub">Shared with ${o.name}</div>
+    <div class="refbox"><div class="lb">REFERENCE</div><div class="code">${o.id}</div></div>
+    <div class="summary-line"><span>Material</span><b>${m.em} ${m.label}</b></div>
+    <div class="summary-line"><span>Weight</span><b>${o.weight} kg</b></div>
+    <div class="summary-line"><span>Date</span><b>${o.date}</b></div>
+    <div class="summary-line"><span>Value</span><b>₹${o.value}</b></div>
+    <div class="summary-line"><span>Payment</span><b class="pill ${o.paid ? 'pill-green' : 'pill-amber'}">${o.paid ? 'Paid' : 'Pending'}</b></div>
+    <div class="modal-actions">
+      ${!o.paid ? `<button class="btn btn-amber" onclick="markOrderPaid('${o.id}')">Mark as paid</button>` : `<button class="btn btn-primary" onclick="closeModal()">Done</button>`}
+    </div>`;
+      openModal();
+    }
+    function markOrderPaid(id) {
+      const o = orders.find(x => x.id === id);
+      o.paid = true;
+      showToast(`Payment to ${o.name} marked as paid`);
+      closeModal();
+      renderAll();
+    }
+
+    /* ================= RENDER: PAYMENTS ================= */
+    function renderPayments() {
+      const paid = orders.filter(o => o.paid);
+      const pending = orders.filter(o => !o.paid);
+      document.getElementById('payTotalPaid').textContent = '₹' + paid.reduce((s, o) => s + o.value, 0).toLocaleString('en-IN');
+      document.getElementById('payTotalPending').textContent = '₹' + pending.reduce((s, o) => s + o.value, 0).toLocaleString('en-IN');
+      document.getElementById('payTxnCount').textContent = orders.length;
+
+      const sorted = [...orders].sort((a, b) => (a.paid === b.paid) ? 0 : (a.paid ? 1 : -1)).filter(matchesSearch);
+      document.getElementById('paymentsBody').innerHTML = sorted.length ? sorted.map(o => {
+        const m = matInfo(o.mat);
+        const initials = o.name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+        return `<tr>
+      <td class="mono">${o.id}</td>
+      <td><div class="cell-user"><div class="av">${initials}</div><div class="nm">${o.name}</div></div></td>
+      <td>${m.em} ${m.label}</td>
+      <td>${o.date}</td>
+      <td style="font-weight:600;">₹${o.value}</td>
+      <td>${o.paid ? '<span class="pill pill-green">Paid</span>' : '<span class="pill pill-amber">Pending</span>'}</td>
+      <td class="tdright">${!o.paid ? `<button class="btn btn-sm btn-amber" onclick="markOrderPaid('${o.id}');renderPayments();">Mark paid</button>` : ''}</td>
+    </tr>`;
+      }).join('') : `<tr><td colspan="7"><div class="empty"><div class="em">💳</div><div class="tt">No payment records yet</div></div></td></tr>`;
+    }
+
+    /* ================= RENDER: PROFILE ================= */
+    function renderProfile() {
+      document.getElementById('materialChips').innerHTML = MATERIALS.map(m =>
+        `<button class="${acceptedMaterials.includes(m.key) ? 'on' : ''}" onclick="toggleChip(this,'material','${m.key}')">${m.em} ${m.label}</button>`
+      ).join('');
+      document.getElementById('areaChips').innerHTML = AREAS_ALL.map(a =>
+        `<button class="${acceptedAreas.includes(a) ? 'on' : ''}" onclick="toggleChip(this,'area','${a}')">📍 ${a}</button>`
+      ).join('');
+    }
+    function toggleChip(btn, type, val) {
+      btn.classList.toggle('on');
+      const arr = type === 'material' ? acceptedMaterials : acceptedAreas;
+      const idx = arr.indexOf(val);
+      if (idx > -1) arr.splice(idx, 1); else arr.push(val);
+      if (type === 'area') renderOverview();
+    }
+
+    /* ================= NAV / VIEWS ================= */
+    const titles = {
+      overview: ['Overview', "Here's what's happening with your scrap business today"],
+      requests: ['Requests', 'Respond to pickup requests from customers near you'],
+      orders: ['Orders', 'Every pickup you have accepted, in progress or finished'],
+      payments: ['Payments', 'Keep track of what you owe and what is settled'],
+      profile: ['Profile', 'Manage how customers see your recycling business'],
+    };
+    function showView(name) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + name).classList.add('active');
+      document.querySelectorAll('.sb-link').forEach(l => l.classList.toggle('active', l.dataset.view === name));
+      document.getElementById('pageTitle').textContent = titles[name][0];
+      document.getElementById('pageSub').textContent = titles[name][1];
+      toggleSidebar(false);
+      window.scrollTo(0, 0);
+    }
+    function toggleSidebar(open) {
+      document.getElementById('sidebar').classList.toggle('open', !!open);
+      document.getElementById('sbOverlay').classList.toggle('show', !!open);
+    }
+
+    /* ================= AVAILABILITY ================= */
+    let available = true;
+    function toggleAvailability() {
+      available = !available;
+      document.getElementById('availToggle').classList.toggle('on', available);
+      document.getElementById('availText').textContent = available ? 'Online' : 'Offline';
+      showToast(available ? "You're visible to nearby customers" : "You won't receive new requests");
+    }
+
+    /* ================= MODAL / TOAST ================= */
+    function openModal() { document.getElementById('modalBg').classList.remove('hidden'); }
+    function closeModal() { document.getElementById('modalBg').classList.add('hidden'); }
+    let toastTimer;
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.add('hidden'), 2600);
+    }
+
+    /* ================= BOOT ================= */
+    function renderAll() {
+      renderOverview();
+      renderRequests();
+      renderOrders();
+      renderPayments();
+      renderProfile();
+    }
+    renderAll();
+  </script>
+</body>
+
+</html>
