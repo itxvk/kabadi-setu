@@ -11,7 +11,7 @@ KabadiSetu is a bilingual/trilingual web platform that connects informal waste c
 
 KabadiSetu has two linked front ends sharing one login:
 
-### 🧺 Kabadiwala (Collector) App — `kabadisetuWeb.html`
+### 🧺 Kabadiwala (Collector) App — `index.html`
 A mobile-first PWA-style app for scrap collectors to:
 - **Check today's fair prices** for e-waste categories (CRT/LCD monitors, PCBs, cables, batteries, motors, mixed plastic) from a transparent rate table
 - **Create a new lot** in 4 quick steps — pick category → photo → weigh → confirm
@@ -49,7 +49,7 @@ A desktop-style console for authorized recyclers to run their side of the busine
 
 ```
 kabadisetu/
-├── kabadisetuWeb.html        # Kabadiwala (collector) app — markup
+├── index.html                # Kabadiwala (collector) app — markup
 ├── kabadisetuWeb.css         # Kabadiwala app — styles (incl. dark mode)
 ├── kabadisetuWeb.js          # Kabadiwala app — logic, i18n, auth, storage
 └── kabadisetu-recycler.html  # Recycler dashboard (markup + styles + logic, self-contained)
@@ -66,7 +66,7 @@ No build step, no dependencies — it's a static, client-side app.
    git clone https://github.com/<your-username>/kabadisetu.git
    cd kabadisetu
    ```
-2. Open `kabadisetuWeb.html` directly in a browser, **or** serve the folder locally:
+2. Open `index.html` directly in a browser, **or** serve the folder locally:
    ```bash
    npx serve .
    ```
