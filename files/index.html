@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1F4D3D">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>KabadiSetu — Web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="kabadisetuWeb.css">
+</head>
+
+<body>
+
+  <div class="phone">
+
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">🌙</button>
+
+    <!-- ONBOARDING -->
+    <div id="onboarding">
+      <div class="ob-leaf">♻️</div>
+      <h1>KabadiSetu</h1>
+      <p>Fair price. Trusted recyclers. Paperwork done for you.<br>सही दाम। भरोसेमंद रिसाइक्लर। सारा रिकॉर्ड अपने आप।
+      </p>
+      <button class="langbtn" onclick="setLang('hi')">हिन्दी<span class="sub">Hindi</span></button>
+      <button class="langbtn" onclick="setLang('mr')">मराठी<span class="sub">Marathi</span></button>
+      <button class="langbtn" onclick="setLang('en')">English<span class="sub">English</span></button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="authLogin" class="authscreen hidden">
+      <div class="role-toggle">
+        <button id="roleKW" class="active" onclick="setRole('kw')">🧺 <span data-t="roleKabadiwala"></span></button>
+        <button id="roleRC" onclick="setRole('rc')">🏭 <span data-t="roleRecycler"></span></button>
+      </div>
+      <div class="auth-emoji" id="loginEmoji">🧺</div>
+      <h2 data-t="loginTitle"></h2>
+      <p class="sub" data-t="loginSub"></p>
+      <div class="auth-field-wrap">
+        <div class="auth-label" data-t="mobileLabel"></div>
+        <input id="phoneInput" type="tel" maxlength="10" placeholder="98765 43210" oninput="checkPhone()"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();sendOtp();}">
+        <button class="btn btn-amber" id="sendOtpBtn" disabled onclick="sendOtp()" data-t="sendOtp"></button>
+      </div>
+    </div>
+
+    <!-- OTP -->
+    <div id="authOtp" class="authscreen hidden">
+      <div class="auth-emoji">🔐</div>
+      <h2 data-t="verifyOtp"></h2>
+      <p class="sub" id="otpSentLabel"></p>
+      <div class="otp-row">
+        <input maxlength="1" inputmode="numeric" oninput="otpMove(this)" onkeydown="otpKeydown(this,event)"><input
+          maxlength="1" inputmode="numeric" oninput="otpMove(this)" onkeydown="otpKeydown(this,event)">
+        <input maxlength="1" inputmode="numeric" oninput="otpMove(this)" onkeydown="otpKeydown(this,event)"><input
+          maxlength="1" inputmode="numeric" oninput="otpMove(this)" onkeydown="otpKeydown(this,event)">
+      </div>
+      <button class="btn btn-amber" style="max-width:320px" onclick="verifyOtpNow()" data-t="verifyOtp"></button>
+      <button class="auth-link" onclick="showToast(t('otpResent'))" data-t="resendOtp"></button>
+    </div>
+
+    <!-- NAME -->
+    <div id="authName" class="authscreen hidden">
+      <div class="auth-emoji">👋</div>
+      <h2 data-t="nameTitle"></h2>
+      <p class="sub" data-t="nameSub"></p>
+      <div class="auth-field-wrap">
+        <div class="auth-label" data-t="nameLabel"></div>
+        <input id="nameInput" type="text" oninput="checkName()" data-tph="namePlaceholder"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();saveName();}">
+        <button class="btn btn-amber" id="nameContinueBtn" disabled onclick="saveName()" data-t="continueBtn"></button>
+      </div>
+      
+    </div>
+
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="brand"><span class="leaf">♻️</span><span id="brandTitle">KabadiSetu</span></div>
+      <!-- <div class="netstatus" id="netStatus"><span class="dot"></span><span id="netStatusText">Online</span></div> -->
+    </div>
+
+    <main>
+      <!-- HOME / PRICE BOARD -->
+      <section class="view active" id="view-home">
+        <div class="card greet-card">
+          
+          <div class="greet-row">
+            <div>
+              <div class="greet-sub" data-t="welcomeBack"></div>
+              <h2 id="userNameDisplay">Raju</h2>
+            </div>
+            
+            <div class="avatar" id="avatarInit">R
+              
+            </div>
+            
+           
+          </div>
+          <p data-t="whatToDo"></p>
+          <div class="quick-actions">
+            <button onclick="showView('newlot')">📷 <span data-t="navNew"></span></button>
+            <button onclick="showView('mylots')">📦 <span data-t="navLots"></span></button>
+            <button onclick="showView('ledger')">💳 <span data-t="navLedger"></span></button>
+            
+              <button class="sb-signout" onclick="signOut()">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <path d="M16 17l5-5-5-5" />
+            <path d="M21 12H9" />
+          </svg>
+          Sign Out
+        </button>
+      
+          </div>
+        </div>
+        <h1 class="pagehead" data-t="homeTitle"></h1>
+        <p class="pagesub" data-t="homeSubtitle"></p>
+        <div class="card" id="priceBoard"></div>
+        <p class="about-box" style="margin-top:14px;" data-t="priceDisclaimer"></p>
+      </section>
+
+      <!-- NEW LOT -->
+      <section class="view" id="view-newlot">
+        <h1 class="pagehead" data-t="newLotTitle"></h1>
+        <div class="steps-track">
+          <div id="st1"></div>
+          <div id="st2"></div>
+          <div id="st3"></div>
+          <div id="st4"></div>
+        </div>
+
+        <div id="lotstep-1">
+          <p class="pagesub" data-t="stepCategory"></p>
+          <div class="catgrid" id="catGrid"></div>
+        </div>
+
+        <div id="lotstep-2" style="display:none;">
+          <p class="pagesub" data-t="stepPhoto"></p>
+          <div class="photobox" id="photoBox">
+            <div id="photoPlaceholder">
+              <div style="font-size:38px;">📷</div>
+              <p style="font-size:12.5px;color:var(--ink-soft);margin:6px 0 0;" data-t="photoHint"></p>
+            </div>
+            <img id="photoPreview" style="display:none;">
+          </div>
+          <input type="file" accept="image/*" capture="environment" id="photoInput" style="display:none;">
+          <div class="row" style="margin-top:12px;">
+            <button class="btn btn-outline grow" onclick="document.getElementById('photoInput').click()"
+              data-t="choosePhoto"></button>
+          </div>
+          <div class="row" style="margin-top:20px;">
+            <button class="btn btn-ghost" onclick="lotStep(1)" data-t="back"></button>
+            <button class="btn btn-primary grow" id="photoNextBtn" onclick="lotStep(3)" data-t="next"></button>
+          </div>
+        </div>
+
+        <div id="lotstep-3" style="display:none;">
+          <p class="pagesub" data-t="stepWeight"></p>
+          <div class="weightctrl">
+            <button class="wbtn" onclick="adjWeight(-0.5)">−</button>
+            <div class="wval"><span id="weightNum">2.0</span><span> kg</span></div>
+            <button class="wbtn" onclick="adjWeight(0.5)">+</button>
+          </div>
+          <div class="estbox">
+            <div class="amt">₹<span id="estAmt">0</span></div>
+            <div class="lb" data-t="estValueLabel"></div>
+          </div>
+          <div class="row" style="margin-top:20px;">
+            <button class="btn btn-ghost" onclick="lotStep(2)" data-t="back"></button>
+            <button class="btn btn-primary grow" onclick="lotStep(4)" data-t="next"></button>
+          </div>
+        </div>
+
+        <div id="lotstep-4" style="display:none;">
+          <p class="pagesub" data-t="stepConfirm"></p>
+          <div class="card" id="confirmSummary"></div>
+          <p style="font-size:12px;color:var(--ink-soft);" id="locStatus"></p>
+          <div class="row" style="margin-top:14px;">
+            <button class="btn btn-ghost" onclick="lotStep(3)" data-t="back"></button>
+            <button class="btn btn-amber grow" onclick="saveLot()" data-t="saveLot"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- MY LOTS -->
+      <section class="view" id="view-mylots">
+        <h1 class="pagehead" data-t="myLotsTitle"></h1>
+        <p class="pagesub" data-t="myLotsSub"></p>
+        <div id="lotsList"></div>
+      </section>
+
+      <!-- LEDGER -->
+      <section class="view" id="view-ledger">
+        <h1 class="pagehead" data-t="ledgerTitle"></h1>
+        <div class="statgrid">
+          <div class="statcard">
+            <div class="val" id="ledgerTotal">₹0</div>
+            <div class="lb" data-t="totalEarnings"></div>
+          </div>
+          <div class="statcard">
+            <div class="val" id="ledgerPending">₹0</div>
+            <div class="lb" data-t="pendingDues"></div>
+          </div>
+        </div>
+        <div class="sectiontitle" data-t="pendingPayments"></div>
+        <div class="card" id="pendingList"></div>
+        <div class="sectiontitle" data-t="transactionHistory"></div>
+        <div class="card" id="paidList"></div>
+      </section>
+
+      <!-- MORE -->
+      <section class="view" id="view-more">
+        <h1 class="pagehead" data-t="moreTitle"></h1>
+        <p class="pagesub" data-t="languageLabel"></p>
+        <div class="langrow">
+          <div class="langchip" id="chip-hi" onclick="setLang('hi')">हिन्दी</div>
+          <div class="langchip" id="chip-mr" onclick="setLang('mr')">मराठी</div>
+          <div class="langchip" id="chip-en" onclick="setLang('en')">English</div>
+        </div>
+
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-weight:600;font-size:13.5px;" data-t="syncTitle"></div>
+            <div style="font-size:11.5px;color:var(--ink-soft);" id="syncSub"></div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="syncNow()" data-t="syncNow"></button>
+        </div>
+
+        <div class="sectiontitle" data-t="safetyTitle"></div>
+        <div id="safetyList"></div>
+
+        <div class="sectiontitle" data-t="aboutTitle"></div>
+        <div class="about-box" id="aboutBody"></div>
+      </section>
+    </main>
+    
+    <!-- BOTTOM NAV -->
+    <nav class="bottomnav">
+      <button class="navbtn active" data-view="home" onclick="showView('home')">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 11.5 12 4l9 7.5" />
+          <path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" />
+        </svg>
+        <span data-t="navHome"></span>
+      </button>
+      <button class="navbtn" data-view="mylots" onclick="showView('mylots')">
+        <svg viewBox="0 0 24 24">
+          <rect x="4" y="7" width="16" height="13" rx="1.5" />
+          <path d="M9 7V5a3 3 0 0 1 6 0v2" />
+        </svg>
+        <span data-t="navLots"></span>
+      </button>
+      <button class="navbtn fab" data-view="newlot" onclick="showView('newlot')">
+        <div class="fabcircle"><svg viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14" />
+          </svg></div>
+        <span data-t="navNew"></span>
+      </button>
+      <button class="navbtn" data-view="ledger" onclick="showView('ledger')">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="6" width="18" height="13" rx="2" />
+          <path d="M3 10h18" />
+          <circle cx="15" cy="14.5" r="1.6" />
+        </svg>
+        <span data-t="navLedger"></span>
+      </button>
+      <button class="navbtn" data-view="more" onclick="showView('more')">
+        <svg viewBox="0 0 24 24">
+          <circle cx="5" cy="12" r="1.6" />
+          <circle cx="12" cy="12" r="1.6" />
+          <circle cx="19" cy="12" r="1.6" />
+        </svg>
+        <span data-t="navMore"></span>
+      </button>
+    </nav>
+
+    <!-- SHEET (recycler match / handover) -->
+    <div class="sheetbg hidden" id="sheetBg" onclick="if(event.target===this)closeSheet()">
+      <div class="sheet">
+        <button class="sheet-close" onclick="closeSheet()">✕</button>
+        <div class="grabber"></div>
+        <div id="sheetContent"></div>
+      </div>
+    </div>
+
+    <div id="toast" class="hidden"></div>
+  </div>
+
+  <script src="kabadisetuWeb.js"></script>
+</body>
+
+</html>
