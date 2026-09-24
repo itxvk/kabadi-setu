@@ -42,7 +42,7 @@
 }
 
 .theme-toggle {
-    position: fixed;
+    position: absolute /*fixed*/;
     top: 14px;
     right: 14px;
     width: 38px;
