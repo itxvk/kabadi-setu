@@ -3,7 +3,7 @@
 **Fair price. Trusted recyclers. Paperwork done for you.**
 सही दाम। भरोसेमंद रिसाइक्लर। सारा रिकॉर्ड अपने आप।
 
-KabadiSetu is a bilingual/trilingual web platform that connects informal waste collectors (**kabadiwalas**) with **authorized recyclers**, bringing transparent pricing, digital record-keeping, and safety guidance to India's scrap collection economy. Built for **SIH PS 26229**.
+KabadiSetu is a bilingual/trilingual web platform that connects informal waste collectors (**kabadiwalas**) with **authorized recyclers**, bringing transparent pricing, digital record-keeping, and safety guidance to India's scrap collection economy. 
 
 ---
 
@@ -96,4 +96,3 @@ No build step, no dependencies — it's a static, client-side app.
 
 
 
-Built for **Smart India Hackathon — Problem Statement 26229**.
