@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="kabadisetuWeb.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -153,6 +154,7 @@
             <button class="btn btn-outline grow" onclick="document.getElementById('photoInput').click()"
               data-t="choosePhoto"></button>
           </div>
+          <div id="aiBanner" class="ai-banner hidden"></div>
           <div class="row" style="margin-top:20px;">
             <button class="btn btn-ghost" onclick="lotStep(1)" data-t="back"></button>
             <button class="btn btn-primary grow" id="photoNextBtn" onclick="lotStep(3)" data-t="next"></button>

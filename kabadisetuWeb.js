@@ -64,16 +64,26 @@ const STR = {
         weightLabel: "Weight",
         cat_crt: "CRT Monitor/TV", cat_lcd: "LCD Panel", cat_pcb: "Circuit Board (PCB)", cat_cable: "Cables",
         cat_battery: "Batteries", cat_motor: "Motor / Magnet", cat_plastic: "Mixed Plastic",
-        safety1t: "Batteries", safety1d: "Don't puncture or crush batteries. Keep away from heat and store separately.",
-        safety2t: "CRT Monitors/TVs", safety2d: "Contains glass and lead. Wear gloves, don't break the tube.",
-        safety3t: "No Open Burning", safety3d: "Burning cables releases toxic fumes. Sell insulated cables as-is.",
-        safety4t: "No Acid Treatment", safety4d: "Acid leaching harms skin and lungs. Hand over PCBs whole to authorized recyclers.",
         roleKabadiwala: "Kabadiwala", roleRecycler: "Recycler", loginTitle: "Log in to KabadiSetu", loginSub: "Collect, sell and track your scrap",
         mobileLabel: "Mobile number", sendOtp: "Send OTP", changeNumber: "Change number", verifyOtp: "Verify & Continue", resendOtp: "Resend OTP", otpResent: "OTP resent",
         otpSent: "OTP sent to +91 ", nameTitle: "What should we call you?", nameSub: "This name will greet you on your home screen",
         nameLabel: "Your name", namePlaceholder: "e.g. Raju Kumar", continueBtn: "Continue",
         welcomeBack: "Welcome back", whatToDo: "What do you want to do today?",
-        invalidPhone: "Enter a valid 10-digit number", wrongOtp: "Enter all 4 digits"
+        invalidPhone: "Enter a valid 10-digit number", wrongOtp: "Enter all 4 digits",
+        aiScanning: "AI is analyzing your photo…",
+        aiMatch: "AI check passed — this photo looks like",
+        aiMismatch: "AI thinks this looks more like",
+        aiMismatchNote: "You selected a different category. Double check before saving, or fix it below.",
+        aiFixBtn: "Use AI suggestion instead",
+        aiSwitched: "Category updated from photo",
+        qrCaption: "Scan this code to view the full transaction record — material, weight, amount, date/time, recycler and kabadiwala details.",
+        near: "Near",
+        safety5t: "Wear Protective Gear", safety5d: "Always wear thick gloves, closed shoes and a mask when handling scrap. Wash your hands well after every sorting session, and never eat or drink while sorting e-waste.",
+        safety6t: "Store & Transport Safely", safety6d: "Keep scrap dry, away from children and out of direct sun. Stack CRTs and glass upright so they can't fall, and tie down loose loads before moving them so nothing spills on the road.",
+        safety1t: "Batteries", safety1d: "Don't puncture, crush or short-circuit batteries — they can spark a fire. Keep them away from heat and flames, store them separately from metals in a dry, ventilated spot, and hand over swollen or leaking cells to the recycler immediately.",
+        safety2t: "CRT Monitors/TVs", safety2d: "Old CRT screens contain leaded glass and phosphor dust that is harmful if inhaled or touched. Always wear gloves and glasses, carry them upright with both hands, and never break, drill or hammer the tube open.",
+        safety3t: "No Open Burning", safety3d: "Burning cable insulation to expose copper releases toxic fumes that damage your lungs and pollute the air for everyone nearby. Sell insulated cables as-is — authorized recyclers have safe machines to strip them.",
+        safety4t: "No Acid Treatment", safety4d: "Never use acid to leach gold or other metals from circuit boards at home — the fumes and runoff cause severe skin, lung and eye damage and poison local water. Hand over PCBs whole and intact to an authorized recycler only.",
     },
     hi: {
         homeTitle: "भाव बोर्ड", homeSubtitle: "आज के सही दाम, अधिकृत रिसाइक्लर से",
@@ -107,10 +117,20 @@ const STR = {
         weightLabel: "वज़न",
         cat_crt: "पुराना टीवी/मॉनिटर", cat_lcd: "LCD पैनल", cat_pcb: "सर्किट बोर्ड", cat_cable: "तार-केबल",
         cat_battery: "बैटरी", cat_motor: "मोटर/मैग्नेट", cat_plastic: "मिला-जुला प्लास्टिक",
-        safety1t: "बैटरी", safety1d: "बैटरी को तोड़ें या दबाएं नहीं। गर्मी से दूर, अलग रखें।",
-        safety2t: "पुराना टीवी/मॉनिटर (CRT)", safety2d: "इसमें शीशा और लेड होता है। दस्ताने पहनें, ट्यूब न तोड़ें।",
-        safety3t: "जलाएं नहीं", safety3d: "तार जलाने से ज़हरीला धुआं निकलता है। तार को वैसे ही बेचें।",
-        safety4t: "एसिड का इस्तेमाल न करें", safety4d: "एसिड से त्वचा और फेफड़ों को नुकसान होता है। बोर्ड पूरा ही सौंपें।",
+        safety1t: "बैटरी", safety1d: "बैटरी को तोड़ें, दबाएं या शॉर्ट-सर्किट न करें — इससे आग लग सकती है। गर्मी और आग से दूर रखें, धातुओं से अलग सूखी और हवादार जगह पर रखें, और फूली या लीक हो रही बैटरी तुरंत रिसाइक्लर को सौंप दें।",
+        safety2t: "पुराना टीवी/मॉनिटर (CRT)", safety2d: "पुराने CRT स्क्रीन में लेड युक्त शीशा और फॉस्फर धूल होती है जो सांस या छूने से नुकसानदायक है। हमेशा दस्ताने और चश्मा पहनें, दोनों हाथों से सीधा उठाएं, और ट्यूब को कभी न तोड़ें, न ड्रिल करें।",
+        safety3t: "जलाएं नहीं", safety3d: "तांबा निकालने के लिए तार की परत जलाने से ज़हरीला धुआं निकलता है जो फेफड़ों को नुकसान पहुंचाता है और आस-पास के लोगों के लिए हवा प्रदूषित करता है। तार को वैसे ही बेचें — अधिकृत रिसाइक्लर के पास इसे सुरक्षित तरीके से उतारने की मशीन होती है।",
+        safety4t: "एसिड का इस्तेमाल न करें", safety4d: "घर पर सर्किट बोर्ड से सोना या अन्य धातु निकालने के लिए कभी एसिड का उपयोग न करें — इसका धुआं और बहाव त्वचा, फेफड़ों और आंखों को गंभीर नुकसान पहुंचाता है और पानी को ज़हरीला बनाता है। बोर्ड पूरा और बिना तोड़े सिर्फ अधिकृत रिसाइक्लर को सौंपें।",
+        aiScanning: "AI आपकी फोटो जांच रहा है…",
+        aiMatch: "AI जांच सफल — यह फोटो ऐसी दिखती है",
+        aiMismatch: "AI को लगता है कि यह ज़्यादा ऐसी दिखती है",
+        aiMismatchNote: "आपने अलग श्रेणी चुनी है। सेव करने से पहले दोबारा जांच लें, या नीचे ठीक करें।",
+        aiFixBtn: "AI सुझाव अपनाएं",
+        aiSwitched: "फोटो के आधार पर श्रेणी बदली गई",
+        qrCaption: "पूरा लेन-देन रिकॉर्ड देखने के लिए यह कोड स्कैन करें — सामान, वज़न, कीमत, तारीख़/समय, रिसाइक्लर और कबाड़ीवाला की जानकारी।",
+        near: "पास में",
+        safety5t: "सुरक्षा उपकरण पहनें", safety5d: "कबाड़ संभालते समय हमेशा मोटे दस्ताने, बंद जूते और मास्क पहनें। हर बार छांटने के बाद हाथ अच्छे से धोएं, और ई-वेस्ट छांटते समय कभी कुछ खाएं-पिएं नहीं।",
+        safety6t: "सुरक्षित भंडारण और ढुलाई", safety6d: "कबाड़ को सूखा, बच्चों से दूर और सीधी धूप से बचाकर रखें। CRT और कांच को सीधा खड़ा करके रखें ताकि वे गिरें नहीं, और ले जाते समय ढीले सामान को अच्छे से बांधें ताकि रास्ते में कुछ न गिरे।",
         roleKabadiwala: "कबाड़ीवाला", roleRecycler: "रीसाइक्लर", loginTitle: "कबाड़ीसेतु में लॉगिन करें", loginSub: "कबाड़ इकट्ठा करें, बेचें और ट्रैक करें",
         mobileLabel: "मोबाइल नंबर", sendOtp: "OTP भेजें", changeNumber: "नंबर बदलें", verifyOtp: "सत्यापित करें और जारी रखें", resendOtp: "OTP फिर भेजें", otpResent: "OTP फिर भेजा गया",
         otpSent: "OTP भेजा गया +91 ", nameTitle: "आपको क्या कहकर बुलाएं?", nameSub: "यह नाम आपके होम स्क्रीन पर दिखेगा",
@@ -150,10 +170,20 @@ const STR = {
         weightLabel: "वजन",
         cat_crt: "जुना टीव्ही/मॉनिटर", cat_lcd: "LCD पॅनल", cat_pcb: "सर्किट बोर्ड", cat_cable: "तार-केबल",
         cat_battery: "बॅटरी", cat_motor: "मोटर/मॅग्नेट", cat_plastic: "मिश्र प्लास्टिक",
-        safety1t: "बॅटरी", safety1d: "बॅटरी फोडू नका किंवा दाबू नका. उष्णतेपासून दूर, वेगळी ठेवा.",
-        safety2t: "जुना टीव्ही/मॉनिटर (CRT)", safety2d: "यात काच आणि शिसे असते. हातमोजे घाला, ट्यूब फोडू नका.",
-        safety3t: "जाळू नका", safety3d: "तार जाळल्याने विषारी धूर निघतो. तार जशी आहे तशी विका.",
-        safety4t: "आम्ल वापरू नका", safety4d: "आम्लामुळे त्वचा आणि फुफ्फुसांना हानी होते. बोर्ड जसाच्या तसा द्या.",
+        safety1t: "बॅटरी", safety1d: "बॅटरी फोडू नका, दाबू नका किंवा शॉर्ट-सर्किट करू नका — त्यामुळे आग लागू शकते. उष्णता व आगीपासून दूर, धातूंपासून वेगळी, कोरड्या व हवेशीर जागी ठेवा, आणि फुगलेली किंवा गळणारी बॅटरी लगेच रिसायकलरकडे द्या.",
+        safety2t: "जुना टीव्ही/मॉनिटर (CRT)", safety2d: "जुन्या CRT स्क्रीनमध्ये शिसेयुक्त काच आणि फॉस्फर धूळ असते जी श्वासाने किंवा स्पर्शाने हानिकारक आहे. नेहमी हातमोजे व गॉगल घाला, दोन्ही हातांनी सरळ उचला, आणि ट्यूब कधीही फोडू किंवा ड्रिल करू नका.",
+        safety3t: "जाळू नका", safety3d: "तांबे मिळवण्यासाठी तारेचे आवरण जाळल्याने विषारी धूर बाहेर पडतो जो फुफ्फुसांना हानी पोहोचवतो आणि आजूबाजूची हवा प्रदूषित करतो. तार जशी आहे तशी विका — अधिकृत रिसायकलरकडे ती सुरक्षितपणे उतरवण्याचे यंत्र असते.",
+        safety4t: "आम्ल वापरू नका", safety4d: "घरी सर्किट बोर्डमधून सोने किंवा इतर धातू काढण्यासाठी कधीही आम्ल वापरू नका — त्याची वाफ आणि सांडपाणी त्वचा, फुफ्फुसे व डोळ्यांना गंभीर हानी पोहोचवते आणि पाणी विषारी बनवते. बोर्ड जसाच्या तसा फक्त अधिकृत रिसायकलरला द्या.",
+        aiScanning: "AI तुमचा फोटो तपासत आहे…",
+        aiMatch: "AI तपासणी यशस्वी — हा फोटो असा दिसतो",
+        aiMismatch: "AI ला वाटते की हा फोटो जास्त असा दिसतो",
+        aiMismatchNote: "तुम्ही वेगळी श्रेणी निवडली आहे. सेव्ह करण्यापूर्वी पुन्हा तपासा, किंवा खाली दुरुस्त करा.",
+        aiFixBtn: "AI सूचना वापरा",
+        aiSwitched: "फोटोच्या आधारे श्रेणी बदलली",
+        qrCaption: "संपूर्ण व्यवहार तपशील पाहण्यासाठी हा कोड स्कॅन करा — साहित्य, वजन, रक्कम, तारीख/वेळ, रिसायकलर आणि कबाडीवाला माहिती.",
+        near: "जवळ",
+        safety5t: "सुरक्षा साधने वापरा", safety5d: "भंगार हाताळताना नेहमी जाड हातमोजे, बंद बूट आणि मास्क घाला. प्रत्येक वेळी वर्गीकरणानंतर हात नीट धुवा, आणि ई-वेस्ट वर्गीकरण करताना कधीही खाऊ-पिऊ नका.",
+        safety6t: "सुरक्षित साठवण आणि वाहतूक", safety6d: "भंगार कोरडे, मुलांपासून दूर आणि थेट उन्हापासून वाचवून ठेवा. CRT आणि काच सरळ उभे ठेवा जेणेकरून ते पडणार नाहीत, आणि वाहतूक करताना सैल सामान नीट बांधा जेणेकरून रस्त्यात काही सांडणार नाही.",
         roleKabadiwala: "कबाडीवाला", roleRecycler: "रिसायकलर", loginTitle: "कबाडीसेतू मध्ये लॉगिन करा", loginSub: "भंगार गोळा करा, विका आणि ट्रॅक करा",
         mobileLabel: "मोबाईल नंबर", sendOtp: "OTP पाठवा", changeNumber: "नंबर बदला", verifyOtp: "पडताळणी करा आणि पुढे जा", resendOtp: "OTP पुन्हा पाठवा", otpResent: "OTP पुन्हा पाठवला",
         otpSent: "OTP पाठवला +91 ", nameTitle: "तुम्हाला काय म्हणून हाक मारू?", nameSub: "हे नाव तुमच्या होम स्क्रीनवर दिसेल",
@@ -189,6 +219,29 @@ const RECYCLERS = [
 
 ];
 const DEFAULT_LOC = { lat: 26.4499, lng: 80.3319 }; // Kanpur fallback
+
+// Known localities used to translate raw GPS coordinates into a readable place
+// name, the same way the recycler console shows named service areas instead of numbers.
+const KNOWN_PLACES = [
+    { name: 'Nayaganj', lat: 26.4675, lng: 80.3319 },
+    { name: 'Swaroop Nagar', lat: 26.4780, lng: 80.3260 },
+    { name: 'Kidwai Nagar', lat: 26.4460, lng: 80.3370 },
+    { name: 'Govind Nagar', lat: 26.4550, lng: 80.3120 },
+    { name: 'Kakadeo', lat: 26.4710, lng: 80.3450 },
+    { name: 'Civil Lines', lat: 26.4640, lng: 80.3480 },
+    { name: 'Arya Nagar', lat: 26.4715, lng: 80.3330 },
+    { name: 'Afeem Kothi', lat: 26.4635, lng: 80.3395 },
+    { name: 'Chamanganj', lat: 26.4695, lng: 80.3410 }
+];
+function nearestPlaceName(lat, lng) {
+    let best = null, bestDist = Infinity;
+    KNOWN_PLACES.forEach(p => {
+        const d = haversine(lat, lng, p.lat, p.lng);
+        if (d < bestDist) { bestDist = d; best = p; }
+    });
+    if (!best) return '';
+    return best.name + (bestDist > 0.4 ? ` (~${bestDist.toFixed(1)}km)` : '');
+}
 
 /* ================= STATE ================= */
 let lots = Store.get('kc_lots', []);
@@ -274,7 +327,14 @@ function finishAuth() {
 function setLang(l) {
     LANG = l; Store.set('kc_lang', l);
     applyLang();
-    showAuth('authLogin');
+    // Only send people to the login screen when they're picking a language
+    // during onboarding (not yet signed in). Changing the language later
+    // from the More tab should just re-translate the app in place.
+    if (!USERNAME) {
+        showAuth('authLogin');
+    } else {
+        renderAll();
+    }
 }
 function applyLang() {
     document.documentElement.lang = LANG || 'en';
@@ -353,6 +413,8 @@ function resetLotFlow() {
     document.getElementById('photoPreview').style.display = 'none';
     document.getElementById('photoPlaceholder').style.display = 'block';
     document.getElementById('weightNum').textContent = draft.weight.toFixed(1);
+    const banner = document.getElementById('aiBanner');
+    if (banner) { banner.classList.add('hidden'); banner.innerHTML = ''; }
     lotStep(1);
 }
 function pickCategory(key) {
@@ -376,9 +438,105 @@ document.getElementById('photoInput').addEventListener('change', function (e) {
         document.getElementById('photoPreview').src = draft.photo;
         document.getElementById('photoPreview').style.display = 'block';
         document.getElementById('photoPlaceholder').style.display = 'none';
+        runAiMaterialScan(draft.photo);
     };
     reader.readAsDataURL(file);
 });
+
+/* ================= AI MATERIAL SCANNER =================
+   Lightweight on-device "AI": reads the photo's pixels (average colour,
+   brightness, saturation, contrast/texture) with a canvas and matches it
+   against a fingerprint for each scrap category — no server round-trip,
+   works offline. Good enough to tell the kabadiwala "this looks like
+   Cables" and nudge them if it disagrees with the category they tapped. */
+function classifyPixels(px) {
+    let n = 0, rSum = 0, gSum = 0, bSum = 0, brSum = 0, brSqSum = 0, satSum = 0, greenish = 0, coppery = 0;
+    for (let i = 0; i < px.length; i += 4) {
+        const r = px[i], g = px[i + 1], b = px[i + 2];
+        const br = (r + g + b) / 3;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        const sat = max === 0 ? 0 : (max - min) / max;
+        rSum += r; gSum += g; bSum += b; brSum += br; brSqSum += br * br; satSum += sat;
+        if (g > r + 12 && g > b + 12) greenish++;
+        if (r > g + 15 && g > b) coppery++;
+        n++;
+    }
+    const avgR = rSum / n, avgG = gSum / n, avgB = bSum / n;
+    const avgBr = brSum / n;
+    const variance = Math.max(0, (brSqSum / n) - (avgBr * avgBr));
+    const contrast = Math.sqrt(variance);
+    const avgSat = satSum / n;
+    const greenRatio = greenish / n;
+    const copperRatio = coppery / n;
+    return { avgR, avgG, avgB, avgBr, contrast, avgSat, greenRatio, copperRatio };
+}
+function scoreMaterials(f) {
+    // Each category gets a heuristic score from the extracted image fingerprint.
+    const scores = {
+        battery: (f.avgBr < 75 ? (75 - f.avgBr) : 0) + (f.avgSat < 0.22 ? 12 : 0),
+        pcb: f.greenRatio * 260 + (f.contrast > 35 ? 10 : 0),
+        cable: f.copperRatio * 200 + (f.contrast > 40 ? f.contrast * 0.6 : 0) + (f.avgSat > 0.28 ? 10 : 0),
+        crt: (f.avgBr > 120 && f.avgSat < 0.18) ? (30 + (f.avgBr - 120) * 0.2) : 0,
+        lcd: (f.avgBr > 90 && f.avgB > f.avgR && f.avgSat < 0.25) ? (28 + (f.avgB - f.avgR) * 0.5) : 0,
+        motor: (f.contrast > 45 && f.avgSat < 0.3 && f.avgBr >= 70 && f.avgBr <= 150) ? (25 + f.contrast * 0.3) : 0,
+        plastic: f.avgSat * 60 + (f.avgBr > 100 ? 10 : 0)
+    };
+    let bestKey = 'plastic', bestScore = -1;
+    Object.keys(scores).forEach(k => { if (scores[k] > bestScore) { bestScore = scores[k]; bestKey = k; } });
+    const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
+    const confidence = Math.min(96, Math.max(52, Math.round((bestScore / total) * 100) + 40));
+    return { key: bestKey, confidence };
+}
+function runAiMaterialScan(dataUrl) {
+    const banner = document.getElementById('aiBanner');
+    if (!banner) return;
+    banner.className = 'ai-banner';
+    banner.innerHTML = `<span class="ai-spin"></span><div class="ai-body"><div class="ai-tt">${t('aiScanning')}</div></div>`;
+    const img = new Image();
+    img.onload = function () {
+        try {
+            const size = 60;
+            const canvas = document.createElement('canvas');
+            canvas.width = size; canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, size, size);
+            const data = ctx.getImageData(0, 0, size, size).data;
+            const fp = classifyPixels(data);
+            const result = scoreMaterials(fp);
+            draft.aiGuess = result.key;
+            renderAiBanner(result);
+        } catch (e) {
+            banner.classList.add('hidden');
+        }
+    };
+    img.onerror = function () { banner.classList.add('hidden'); };
+    img.src = dataUrl;
+}
+function renderAiBanner(result) {
+    const banner = document.getElementById('aiBanner');
+    if (!banner) return;
+    const cat = CATS.find(c => c.key === result.key);
+    const label = t('cat_' + result.key);
+    const matches = draft.category === result.key;
+    banner.className = 'ai-banner ' + (matches ? 'match' : 'mismatch');
+    if (matches) {
+        banner.innerHTML = `<span class="ai-ic">${cat.em}</span><div class="ai-body">
+      <div class="ai-tt">${t('aiMatch')} ${label} (${result.confidence}%)</div>
+    </div>`;
+    } else {
+        banner.innerHTML = `<span class="ai-ic">${cat.em}</span><div class="ai-body">
+      <div class="ai-tt">${t('aiMismatch')} ${label} (${result.confidence}%)</div>
+      <div class="ai-ds">${t('aiMismatchNote')}</div>
+      <button class="ai-fix" onclick="applyAiSuggestion()">${t('aiFixBtn')}</button>
+    </div>`;
+    }
+}
+function applyAiSuggestion() {
+    if (!draft.aiGuess) return;
+    draft.category = draft.aiGuess;
+    showToast(t('aiSwitched'));
+    renderAiBanner({ key: draft.aiGuess, confidence: 80 });
+}
 function adjWeight(delta) {
     draft.weight = Math.max(0.5, Math.round((draft.weight + delta) * 10) / 10);
     updateWeightUI();
@@ -401,13 +559,19 @@ function buildConfirm() {
     document.getElementById('locStatus').textContent = t('gettingLocation');
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-            pos => { draft.loc = { lat: pos.coords.latitude, lng: pos.coords.longitude, approx: false }; document.getElementById('locStatus').textContent = t('locationCaptured'); },
-            () => { draft.loc = { ...DEFAULT_LOC, approx: true }; document.getElementById('locStatus').textContent = t('locationApprox'); },
+            pos => {
+                draft.loc = { lat: pos.coords.latitude, lng: pos.coords.longitude, approx: false };
+                document.getElementById('locStatus').textContent = t('locationCaptured') + ' · ' + t('near') + ' ' + nearestPlaceName(draft.loc.lat, draft.loc.lng);
+            },
+            () => {
+                draft.loc = { ...DEFAULT_LOC, approx: true };
+                document.getElementById('locStatus').textContent = t('locationApprox') + ' · ' + t('near') + ' ' + nearestPlaceName(draft.loc.lat, draft.loc.lng);
+            },
             { timeout: 6000 }
         );
     } else {
         draft.loc = { ...DEFAULT_LOC, approx: true };
-        document.getElementById('locStatus').textContent = t('locationApprox');
+        document.getElementById('locStatus').textContent = t('locationApprox') + ' · ' + t('near') + ' ' + nearestPlaceName(draft.loc.lat, draft.loc.lng);
     }
 }
 function saveLot() {
@@ -517,6 +681,7 @@ function openHandoverRecord(lotId) {
     const h = lot.handover;
     const cat = CATS.find(c => c.key === lot.category);
     const dt = h ? new Date(h.time).toLocaleString() : '';
+    const placeName = h ? nearestPlaceName(h.lat, h.lng) : '—';
     const waText = encodeURIComponent(`KabadiSetu handover\nRef: ${h ? h.ref : ''}\nMaterial: ${t('cat_' + lot.category)} (${lot.weight}kg)\nRecycler: ${r ? r.name : ''}\nValue: ₹${lot.finalValue}\nTime: ${dt}`);
     document.getElementById('sheetContent').innerHTML = `
     <h1 class="pagehead">${t('handoverTitle')}</h1>
@@ -526,13 +691,60 @@ function openHandoverRecord(lotId) {
       <div class="summary-line"><span>${t('recyclerLabel')}</span><b>${r ? r.name : '—'}</b></div>
       <div class="summary-line"><span>${t('valueLabel')}</span><b>₹${lot.finalValue}</b></div>
       <div class="summary-line"><span>${t('timeLabel')}</span><b>${dt}</b></div>
-      <div class="summary-line"><span>${t('gpsLabel')}</span><b>${h ? h.lat.toFixed(3) + ', ' + h.lng.toFixed(3) : '—'}</b></div>
+      <div class="summary-line"><span>${t('gpsLabel')}</span><b>📍 ${placeName}</b></div>
       <div class="summary-line"><span>${t('paymentPending')}</span><b class="pill ${lot.paymentStatus === 'paid' ? 'pill-green' : 'pill-amber'}">${lot.paymentStatus === 'paid' ? t('paymentPaid') : t('paymentPending')}</b></div>
+    </div>
+    <div class="qr-box">
+      <div class="qr-canvas-wrap" id="qrCanvas"></div>
+      <div class="qr-cap">${t('qrCaption')}</div>
     </div>
     <a class="btn btn-ghost" style="text-decoration:none;margin-bottom:10px;" href="https://wa.me/?text=${waText}" target="_blank">${t('shareWhatsapp')}</a>
     ${lot.paymentStatus !== 'paid' ? `<button class="btn btn-amber" onclick="markPaid('${lot.id}')">${t('markCashReceived')}</button>` : `<button class="btn btn-primary" onclick="closeSheet()">${t('done')}</button>`}
   `;
     openSheet();
+    renderTxnQr('qrCanvas', {
+        ref: h ? h.ref : lot.id,
+        material: t('cat_' + lot.category), weight: lot.weight, amount: lot.finalValue,
+        time: dt, place: placeName, recycler: r ? r.name : '—', kabadiwala: USERNAME || '—',
+        payment: lot.paymentStatus === 'paid' ? t('paymentPaid') : t('paymentPending')
+    });
+}
+/* ================= QR CODE (per-transaction proof) =================
+   Encodes a human-readable summary of the transaction directly into the QR
+   code, so scanning it with any phone camera shows the full record —
+   material, weight, amount, date/time, recycler and kabadiwala — with no
+   app or server needed on the scanning side. */
+function renderTxnQr(containerId, info) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = '';
+    const payload = [
+        'KabadiSetu Transaction',
+        'Ref: ' + info.ref,
+        'Date/Time: ' + info.time,
+        'Kabadiwala: ' + info.kabadiwala,
+        'Recycler: ' + info.recycler,
+        'Material: ' + info.material + ' (' + Number(info.weight).toFixed(1) + ' kg)',
+        'Amount: Rs.' + info.amount,
+        'Payment: ' + info.payment,
+        'Location: ' + info.place
+    ].join('\n');
+    try {
+        if (typeof QRCode === 'undefined') throw new Error('QR library not loaded');
+        // qrcodejs writes one byte per character (charCodeAt) and has no
+        // Unicode support, so ₹ / Hindi / Marathi text silently corrupts it
+        // and leaves a blank box. Pre-encoding the string as UTF-8 bytes
+        // (standard escape/unescape trick) makes it scan correctly on any
+        // reader, since byte-mode QR data with no ECI header is read as
+        // UTF-8 by virtually every modern scanner.
+        const safePayload = unescape(encodeURIComponent(payload));
+        new QRCode(el, { text: safePayload, width: 168, height: 168, correctLevel: QRCode.CorrectLevel.M });
+    } catch (e) {
+        // Never leave a blank box: if the QR library failed to load (e.g. no
+        // internet when this page first opened) or errors out, still show
+        // the full transaction details as readable text.
+        el.innerHTML = `<pre style="margin:0;text-align:left;white-space:pre-wrap;font-family:inherit;font-size:11px;line-height:1.6;">${payload.replace(/</g, '&lt;')}</pre>`;
+    }
 }
 function markPaid(lotId) {
     const lot = lots.find(l => l.id === lotId);
@@ -566,19 +778,35 @@ function renderLedger() {
 }
 
 /* ================= MORE / SAFETY ================= */
+function safetyIllustration(i) {
+    // Small self-contained flat-style SVG illustrations — no external images,
+    // so the safety guide still works fully offline.
+    const svgs = {
+        1: `<svg class="illus" viewBox="0 0 220 90" height="90"><rect width="220" height="90" fill="var(--rust-soft)"/><rect x="30" y="25" width="70" height="40" rx="4" fill="var(--ink)"/><rect x="96" y="36" width="8" height="18" fill="var(--ink)"/><rect x="36" y="31" width="58" height="28" rx="2" fill="var(--amber)"/><path d="M55 36 L48 47 L57 47 L50 58" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(140,20)"><circle cx="25" cy="25" r="24" fill="none" stroke="var(--rust)" stroke-width="3"/><path d="M25 13v16" stroke="var(--rust)" stroke-width="4" stroke-linecap="round"/><circle cx="25" cy="35" r="2.4" fill="var(--rust)"/></g></svg>`,
+        2: `<svg class="illus" viewBox="0 0 220 90" height="90"><rect width="220" height="90" fill="var(--blue-soft)"/><rect x="34" y="18" width="90" height="58" rx="4" fill="var(--ink)"/><rect x="42" y="26" width="74" height="42" fill="var(--blue)"/><rect x="66" y="76" width="26" height="8" fill="var(--ink)"/><g transform="translate(150,22)"><rect x="0" y="14" width="26" height="34" rx="3" fill="none" stroke="var(--rust)" stroke-width="3"/><path d="M4 14 L22 48 M22 14 L4 48" stroke="var(--rust)" stroke-width="2.5"/></g></svg>`,
+        3: `<svg class="illus" viewBox="0 0 220 90" height="90"><rect width="220" height="90" fill="var(--amber-soft)"/><path d="M40 66 Q34 48 42 34 Q46 46 52 40 Q56 58 44 66 Z" fill="var(--rust)"/><path d="M43 66 Q40 56 45 48 Q47 55 50 52 Q52 62 45 66 Z" fill="var(--amber)"/><line x1="14" y1="76" x2="200" y2="76" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/><g transform="translate(120,20)"><circle cx="35" cy="35" r="30" fill="none" stroke="var(--rust)" stroke-width="4"/><line x1="14" y1="14" x2="56" y2="56" stroke="var(--rust)" stroke-width="4"/></g></svg>`,
+        4: `<svg class="illus" viewBox="0 0 220 90" height="90"><rect width="220" height="90" fill="var(--green-soft)"/><rect x="30" y="16" width="46" height="58" rx="3" fill="none" stroke="var(--green-deep)" stroke-width="3"/><rect x="30" y="48" width="46" height="26" fill="var(--green-mid)" opacity="0.5"/><rect x="42" y="8" width="22" height="10" rx="2" fill="var(--green-deep)"/><g transform="translate(140,20)"><rect x="0" y="14" width="26" height="34" rx="3" fill="none" stroke="var(--rust)" stroke-width="3"/><path d="M4 14 L22 48 M22 14 L4 48" stroke="var(--rust)" stroke-width="2.5"/></g></svg>`,
+        5: `<svg class="illus" viewBox="0 0 220 90" height="90"><rect width="220" height="90" fill="var(--green-soft)"/><path d="M40 30c0-8 6-14 14-14s14 6 14 14v10h10v22c0 10-8 18-18 18h-12c-10 0-18-8-18-18V46h10z" fill="var(--amber)"/><path d="M40 30c0-8 6-14 14-14s14 6 14 14v10h10v22c0 10-8 18-18 18h-12c-10 0-18-8-18-18V46h10z" fill="none" stroke="var(--amber-ink)" stroke-width="2"/><rect x="120" y="30" width="70" height="26" rx="13" fill="var(--blue)"/><circle cx="132" cy="43" r="7" fill="#fff"/><circle cx="178" cy="43" r="7" fill="#fff"/></svg>`,
+        6: `<svg class="illus" viewBox="0 0 220 90" height="90"><rect width="220" height="90" fill="var(--amber-soft)"/><rect x="24" y="34" width="50" height="40" rx="3" fill="var(--rust-warm)"/><rect x="82" y="20" width="42" height="54" rx="3" fill="var(--green-mid)"/><g transform="translate(140,26)"><rect x="0" y="14" width="48" height="26" rx="3" fill="var(--ink)"/><rect x="46" y="20" width="18" height="18" rx="2" fill="var(--ink)"/><circle cx="14" cy="44" r="6" fill="var(--ink-soft)"/><circle cx="50" cy="44" r="6" fill="var(--ink-soft)"/></g></svg>`
+    };
+    return svgs[i] || '';
+}
 function renderMore() {
     applyLang();
     const pendingSync = lots.filter(l => !l.synced).length;
     document.getElementById('syncSub').textContent = pendingSync ? `${pendingSync} pending` : '✓ up to date';
-    document.getElementById('safetyList').innerHTML = [1, 2, 3, 4].map(i => {
-        const em = { 1: '🔋', 2: '📺', 3: '🔥', 4: '🧪' }[i];
+    const em = { 1: '🔋', 2: '📺', 3: '🔥', 4: '🧪', 5: '🧤', 6: '📦' };
+    document.getElementById('safetyList').innerHTML = [1, 2, 3, 4, 5, 6].map(i => {
         return `<div class="safety-card">
-      <div class="em">${em}</div>
-      <div class="grow">
-        <div class="tt">${t('safety' + i + 't')}</div>
-        <div class="ds">${t('safety' + i + 'd')}</div>
+      <div class="sc-top">
+        <div class="em">${em[i]}</div>
+        <div class="grow">
+          <div class="tt">${t('safety' + i + 't')}</div>
+          <div class="ds">${t('safety' + i + 'd')}</div>
+        </div>
+        <button class="listenbtn" onclick="speak('${(t('safety' + i + 't') + '. ' + t('safety' + i + 'd')).replace(/'/g, "\\'")}')"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 8a5 5 0 0 1 0 8"/></svg></button>
       </div>
-      <button class="listenbtn" onclick="speak('${(t('safety' + i + 't') + '. ' + t('safety' + i + 'd')).replace(/'/g, "\\'")}')"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 8a5 5 0 0 1 0 8"/></svg></button>
+      ${safetyIllustration(i)}
     </div>`;
     }).join('');
 }

@@ -10,6 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"
     rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     :root {
       --bg: #F6F1E7;
@@ -431,6 +432,120 @@
       font-weight: 700;
       font-size: 14px;
       flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .avatar.has-photo {
+      color: transparent;
+    }
+
+    /* ---------- Notifications dropdown ---------- */
+    .notif-wrap {
+      position: relative;
+    }
+
+    .notif-panel {
+      position: absolute;
+      top: 46px;
+      right: 0;
+      width: 320px;
+      max-width: 88vw;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-m);
+      box-shadow: var(--shadow);
+      z-index: 400;
+      overflow: hidden;
+    }
+
+    .notif-panel.hidden {
+      display: none;
+    }
+
+    .iconbtn .dot.hidden {
+      display: none;
+    }
+
+    .notif-panel .np-head {
+      padding: 12px 14px;
+      font-weight: 700;
+      font-size: 13px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notif-panel .np-head .np-count {
+      font-weight: 600;
+      font-size: 11.5px;
+      color: var(--ink-soft);
+    }
+
+    .notif-panel .np-list {
+      max-height: 340px;
+      overflow-y: auto;
+    }
+
+    .notif-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+    }
+
+    .notif-item:last-child {
+      border-bottom: none;
+    }
+
+    .notif-item:hover {
+      background: var(--green-soft);
+    }
+
+    .notif-item .em {
+      font-size: 18px;
+    }
+
+    .notif-item .nm {
+      font-weight: 600;
+      font-size: 12.5px;
+    }
+
+    .notif-item .mt {
+      font-size: 11.5px;
+      color: var(--ink-soft);
+      margin-top: 1px;
+    }
+
+    .notif-item .tm {
+      font-size: 10.5px;
+      color: var(--ink-faint);
+      margin-top: 3px;
+    }
+
+    .notif-empty {
+      padding: 26px 14px;
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--ink-soft);
+    }
+
+    .notif-panel .np-foot {
+      padding: 10px 14px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+    }
+
+    .notif-panel .np-foot button {
+      background: none;
+      border: none;
+      color: var(--green-deep);
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
     }
 
     .who .nm {
@@ -1269,6 +1384,30 @@
       border-bottom: none;
     }
 
+    .qr-box {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-m);
+      padding: 16px;
+      text-align: center;
+      margin: 14px 0;
+    }
+
+    .qr-box .qr-canvas-wrap {
+      display: inline-block;
+      padding: 8px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .qr-box .qr-cap {
+      font-size: 11px;
+      color: var(--ink-soft);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
     .modal-actions {
       display: flex;
       gap: 10px;
@@ -1481,10 +1620,20 @@
           </div>
           <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()"
             aria-label="Toggle dark mode">🌙</button>
-          <button class="iconbtn"><svg viewBox="0 0 24 24">
-              <path d="M6 8a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6" />
-              <path d="M10.3 21a2 2 0 0 0 3.4 0" />
-            </svg><span class="dot"></span></button>
+          <div class="notif-wrap">
+            <button class="iconbtn" id="notifBtn" onclick="toggleNotifPanel(event)" aria-label="Notifications">
+              <svg viewBox="0 0 24 24">
+                <path d="M6 8a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6" />
+                <path d="M10.3 21a2 2 0 0 0 3.4 0" />
+              </svg>
+              <span class="dot hidden" id="notifDot"></span>
+            </button>
+            <div class="notif-panel hidden" id="notifPanel">
+              <div class="np-head"><span>Latest requests</span><span class="np-count" id="notifCount">0 new</span></div>
+              <div class="np-list" id="notifList"></div>
+              <div class="np-foot"><button onclick="showView('requests');toggleNotifPanel()">View all requests</button></div>
+            </div>
+          </div>
           <div class="who" onclick="showView('profile')" style="cursor:pointer;" title="View profile">
             <div class="avatar" id="avatarInit">R</div>
             <div>
@@ -1665,8 +1814,9 @@
           </div>
           <div class="profile-grid">
             <div class="card profile-card">
-              <div class="av-lg">R</div>
-              <h3>Rajendra Kabadi</h3>
+              <div class="av-lg" id="profileAvatar">R</div>
+              <input type="file" accept="image/*" id="avatarFileInput" style="display:none;" onchange="handleAvatarChange(event)">
+              <h3 id="profileNameDisplay">Rajendra Kabadi</h3>
               <div class="role">Scrap &amp; recyclables · Kanpur</div>
               <div class="rating">
                 <svg viewBox="0 0 24 24">
@@ -1674,7 +1824,7 @@
                 </svg>
                 4.8 · 212 pickups
               </div>
-              <button class="btn btn-outline" style="width:100%;">Change photo</button>
+              <button class="btn btn-outline" style="width:100%;" onclick="document.getElementById('avatarFileInput').click()">Change photo</button>
             </div>
             <div class="card panel">
               <div class="phead">
@@ -1683,7 +1833,7 @@
               <div class="form-grid">
                 <div class="field"><label>Shop / business name</label><input type="text"
                     value="Rajendra Scrap &amp; Recyclables"></div>
-                <div class="field"><label>Owner name</label><input type="text" value="Rajendra Kabadi"></div>
+                <div class="field"><label>Owner name</label><input type="text" id="ownerNameInput" value="Rajendra Kabadi"></div>
                 <div class="field"><label>Phone number</label><input type="text" value="+91 98765 43210"></div>
                 <div class="field"><label>WhatsApp number</label><input type="text" value="+91 98765 43210"></div>
                 <div class="field" style="grid-column:1/-1;"><label>Shop address</label><input type="text"
@@ -1740,16 +1890,51 @@
     })();
 
     /* ================= SIGNED-IN USER (shared with the kabadiwala app) ================= */
-    (function loadUser() {
+    function applyAvatarPhoto(dataUrl) {
+      ['avatarInit', 'profileAvatar'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (dataUrl) {
+          el.style.backgroundImage = `url('${dataUrl}')`;
+          el.classList.add('has-photo');
+        } else {
+          el.style.backgroundImage = '';
+          el.classList.remove('has-photo');
+        }
+      });
+    }
+    function loadUser() {
       try {
         const raw = localStorage.getItem('kc_name');
         const name = raw ? JSON.parse(raw) : null;
         if (name) {
+          // Same display name entered during login/signup on the kabadiwala
+          // side — shown consistently across the topbar and profile page.
           document.getElementById('nameDisplay').textContent = name;
           document.getElementById('avatarInit').textContent = name.charAt(0).toUpperCase();
+          const profileName = document.getElementById('profileNameDisplay');
+          if (profileName) profileName.textContent = name;
+          const ownerInput = document.getElementById('ownerNameInput');
+          if (ownerInput) ownerInput.value = name;
         }
+        const avatarRaw = localStorage.getItem('kc_avatar');
+        const avatar = avatarRaw ? JSON.parse(avatarRaw) : null;
+        if (avatar) applyAvatarPhoto(avatar);
       } catch (e) { }
-    })();
+    }
+    loadUser();
+    function handleAvatarChange(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        const dataUrl = ev.target.result;
+        try { localStorage.setItem('kc_avatar', JSON.stringify(dataUrl)); } catch (err) { }
+        applyAvatarPhoto(dataUrl);
+        showToast('Profile photo updated');
+      };
+      reader.readAsDataURL(file);
+    }
     function signOut() {
       try { localStorage.removeItem('kc_role'); localStorage.removeItem('kc_name'); } catch (e) { }
       window.location.href = 'index.html';
@@ -1822,6 +2007,49 @@
 
     function matInfo(key) { return MATERIALS.find(m => m.key === key) || MATERIALS[0]; }
     function fmtMins(m) { if (m < 60) return m + 'm ago'; const h = Math.floor(m / 60); return h + 'h ago'; }
+
+    /* ================= NOTIFICATIONS (bell icon → latest requests) ================= */
+    function renderNotifications() {
+      const newReqs = [...requests].filter(r => r.status === 'new').sort((a, b) => a.postedMinsAgo - b.postedMinsAgo);
+      const dot = document.getElementById('notifDot');
+      const countEl = document.getElementById('notifCount');
+      const list = document.getElementById('notifList');
+      if (!list) return;
+      dot.classList.toggle('hidden', newReqs.length === 0);
+      countEl.textContent = newReqs.length + ' new';
+      list.innerHTML = newReqs.length ? newReqs.slice(0, 8).map(r => {
+        const m = matInfo(r.mat);
+        return `<div class="notif-item" onclick="openNotifRequest('${r.id}')">
+      <div class="em">${m.em}</div>
+      <div>
+        <div class="nm">${r.name} · ${r.locality}</div>
+        <div class="mt">${m.label} · ${r.weight}kg · ₹${r.estValue}</div>
+        <div class="tm">${fmtMins(r.postedMinsAgo)}</div>
+      </div>
+    </div>`;
+      }).join('') : `<div class="notif-empty">📭 No new requests right now.</div>`;
+    }
+    function openNotifRequest(id) {
+      toggleNotifPanel();
+      setReqFilter('new');
+      showView('requests');
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      const r = requests.find(x => x.id === id);
+      if (r) showToast(`Request from ${r.name} · ${r.locality}`);
+    }
+    function toggleNotifPanel(e) {
+      if (e) e.stopPropagation();
+      const panel = document.getElementById('notifPanel');
+      const willOpen = panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', !willOpen);
+      if (willOpen) renderNotifications();
+    }
+    document.addEventListener('click', function (e) {
+      const wrap = document.querySelector('.notif-wrap');
+      const panel = document.getElementById('notifPanel');
+      if (wrap && panel && !wrap.contains(e.target)) panel.classList.add('hidden');
+    });
 
     /* ================= RENDER: OVERVIEW ================= */
     function renderOverview() {
@@ -1965,6 +2193,8 @@
     function viewReceipt(id) {
       const o = orders.find(x => x.id === id);
       const m = matInfo(o.mat);
+      let recyclerName = 'Rajendra Kabadi';
+      try { const raw = localStorage.getItem('kc_name'); const n = raw ? JSON.parse(raw) : null; if (n) recyclerName = n; } catch (e) { }
       document.getElementById('modalBody').innerHTML = `
     <h3>Pickup receipt</h3>
     <div class="msub">Shared with ${o.name}</div>
@@ -1974,10 +2204,52 @@
     <div class="summary-line"><span>Date</span><b>${o.date}</b></div>
     <div class="summary-line"><span>Value</span><b>₹${o.value}</b></div>
     <div class="summary-line"><span>Payment</span><b class="pill ${o.paid ? 'pill-green' : 'pill-amber'}">${o.paid ? 'Paid' : 'Pending'}</b></div>
+    <div class="qr-box">
+      <div class="qr-canvas-wrap" id="modalQr"></div>
+      <div class="qr-cap">Scan to view the full record — material, weight, amount, date/time, recycler and kabadiwala details.</div>
+    </div>
     <div class="modal-actions">
       ${!o.paid ? `<button class="btn btn-amber" onclick="markOrderPaid('${o.id}')">Mark as paid</button>` : `<button class="btn btn-primary" onclick="closeModal()">Done</button>`}
     </div>`;
       openModal();
+      renderTxnQr('modalQr', {
+        ref: o.id, time: o.date, kabadiwala: o.name, recycler: recyclerName,
+        material: m.label, weight: o.weight, amount: o.value,
+        payment: o.paid ? 'Paid' : 'Pending'
+      });
+    }
+    /* ================= QR CODE (per-transaction proof) =================
+       Encodes a human-readable transaction summary directly into the QR
+       code so scanning it with any phone shows the full record — no app
+       or server needed on the scanning side. */
+    function renderTxnQr(containerId, info) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      el.innerHTML = '';
+      const payload = [
+        'KabadiSetu Transaction',
+        'Ref: ' + info.ref,
+        'Date: ' + info.time,
+        'Kabadiwala: ' + info.kabadiwala,
+        'Recycler: ' + info.recycler,
+        'Material: ' + info.material + ' (' + Number(info.weight).toFixed(1) + ' kg)',
+        'Amount: Rs.' + info.amount,
+        'Payment: ' + info.payment
+      ].join('\n');
+      try {
+        if (typeof QRCode === 'undefined') throw new Error('QR library not loaded');
+        // qrcodejs writes one byte per character and has no Unicode support,
+        // so the ₹ symbol (or any non-Latin text) silently corrupts it and
+        // leaves a blank box. Pre-encoding as UTF-8 bytes (the standard
+        // escape/unescape trick) makes it scan correctly on any reader.
+        const safePayload = unescape(encodeURIComponent(payload));
+        new QRCode(el, { text: safePayload, width: 168, height: 168, correctLevel: QRCode.CorrectLevel.M });
+      } catch (e) {
+        // Never leave a blank box: if the QR library failed to load (e.g. no
+        // internet when the page first opened) or errors out, still show the
+        // full transaction details as readable text.
+        el.innerHTML = `<pre style="margin:0;text-align:left;white-space:pre-wrap;font-family:inherit;font-size:11px;line-height:1.6;">${payload.replace(/</g, '&lt;')}</pre>`;
+      }
     }
     function markOrderPaid(id) {
       const o = orders.find(x => x.id === id);
@@ -2078,6 +2350,7 @@
       renderOrders();
       renderPayments();
       renderProfile();
+      renderNotifications();
     }
     renderAll();
   </script>
